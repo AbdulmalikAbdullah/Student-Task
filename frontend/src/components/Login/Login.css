@@ -1,0 +1,75 @@
+.welcomeBack-h2 {
+  margin-top: -50px;
+
+}
+
+.loginBox {
+  position: relative;
+  min-width: 400px;
+  background-color: rgb(56, 56, 56);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(136, 136, 136, 0.685);
+  align-items: center;
+  align-content: center;
+  padding: 50px;
+  font-size: 18px;
+  border-radius: 15px;
+  z-index: 1;
+}
+
+.label-email,
+.label-Name {
+  margin: 10px;
+  margin-left: -85%;
+}
+
+.label-pass {
+  margin: 10px;
+  margin-left: -80%;
+}
+
+.input-fname,
+.input-lname {
+  padding: 10px;
+  border-radius: 10px;
+  width: 185px;
+  border: 1px solid hsla(0, 0%, 75%, 0.432);
+}
+
+.input-fname {
+  margin-right: 5px;
+}
+
+.input-lname {
+  margin-left: 5px;
+}
+
+.input-email,
+.input-pass,
+.login-button {
+  width: 400px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid hsla(0, 0%, 75%, 0.432);
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-pass {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+}
+
+p {
+  font-size: 15px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}

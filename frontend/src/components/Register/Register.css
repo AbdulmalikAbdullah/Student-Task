@@ -1,0 +1,27 @@
+.registerBox {
+    position: relative;
+    min-width: 400px;
+    background-color: rgb(56, 56, 56);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(136, 136, 136, 0.685);
+    align-items: center;
+    align-content: center;
+    padding: 50px;
+    font-size: 18px;
+    border-radius: 15px;
+    z-index: 1;
+}
+
+
+.welcome-h2 {
+    margin-top: -50px;
+
+}
+
+.register-button {
+    width: 400px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid hsla(0, 0%, 75%, 0.432);
+}
