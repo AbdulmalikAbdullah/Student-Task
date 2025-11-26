@@ -96,7 +96,7 @@ function Dashboard() {
                 {!loading && !error && courses.length === 0 && <p>No courses found. Create or join a course.</p>}
 
                 {!loading && !error && courses.map((c) => (
-                    <CourseCard key={c._id} src={c.image || `https://placehold.co/600x400/333/fff?text=${encodeURIComponent(c.name)}`} title={c.name} tasks={c.tasks?.length || 0} onView={() => handleView(c)} />
+                    <CourseCard key={c._id} src={c.image || `https://placehold.co/600x400/333/fff?text=${encodeURIComponent(c.name)}`} title={c.name} tasks={c.taskCount || 0} createdCourse={c.code} onView={() => handleView(c)} />
                 ))}
             </section>
 
@@ -125,9 +125,9 @@ function Dashboard() {
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <h3>Course Created!</h3>
                         <p>Share this code with others to join the course:</p>
-                        <div style={{backgroundColor: '#f0f0f0', padding: 12, borderRadius: 6, textAlign: 'center', margin: '12px 0'}}>
-                            <p style={{fontSize: 18, fontWeight: 'bold'}}>{createdCourse.code}</p>
-                            <button onClick={() => { navigator.clipboard.writeText(createdCourse.code); alert('Code copied!'); }} style={{padding: '8px 16px', cursor: 'pointer'}}>Copy Code</button>
+                        <div className="share-code">
+                            <p className="share-code-text" >{createdCourse.code}</p>
+                            <button className="code-copy" onClick={() => { navigator.clipboard.writeText(createdCourse.code); }}>Copy Code</button>
                         </div>
                         <div className="modal-actions">
                             <button className="btn primary" onClick={() => setCreatedCourse(null)}>Done</button>

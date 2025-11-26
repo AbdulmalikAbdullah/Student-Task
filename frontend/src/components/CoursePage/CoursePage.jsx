@@ -74,14 +74,14 @@ function CoursePage() {
 
         // Initial fetch
         fetchTasks();
-            fetchCourse();
+        fetchCourse();
 
         return () => {
             socket.emit("leaveCourse", courseId);
             socket.off("taskCreated");
             socket.off("taskUpdated");
             socket.off("taskDeleted");
-            try { socket.disconnect(); } catch (e) {}
+            try { socket.disconnect(); } catch (e) { }
         };
     }, [courseId]);
 
@@ -97,26 +97,26 @@ function CoursePage() {
         }
     };
 
-        const [members, setMembers] = useState([]);
-        const fetchCourse = async () => {
-            try {
-                const res = await api.get(`/courses/${courseId}`);
-                const c = res.data;
-                setMembers(c.members || []);
-                // prefer course name from server if available
-                if (c.name) {
-                    // set title in local state
-                    // we use courseTitle variable above only for initial param
-                    // replace window title display
-                    // (we'll store in state below)
-                    setCourseName(c.name);
-                }
-            } catch (err) {
-                console.error('fetchCourse error', err);
+    const [members, setMembers] = useState([]);
+    const fetchCourse = async () => {
+        try {
+            const res = await api.get(`/courses/${courseId}`);
+            const c = res.data;
+            setMembers(c.members || []);
+            // prefer course name from server if available
+            if (c.name) {
+                // set title in local state
+                // we use courseTitle variable above only for initial param
+                // replace window title display
+                // (we'll store in state below)
+                setCourseName(c.name);
             }
-        };
+        } catch (err) {
+            console.error('fetchCourse error', err);
+        }
+    };
 
-        const [courseName, setCourseName] = useState('');
+    const [courseName, setCourseName] = useState('');
 
     const addTask = async () => {
         try {
@@ -164,16 +164,14 @@ function CoursePage() {
     };
 
     const toggleComplete = (task) => {
-           const newStatus = task.status === 'Completed' ? 'Pending' : 'Completed';
-           updateTask(task._id, { status: newStatus });
+        const newStatus = task.status === 'Completed' ? 'Pending' : 'Completed';
+        updateTask(task._id, { status: newStatus });
     };
 
     return (
         <div className="course-container">
             <div className="course-header">
-                <span className="menu-icon">☰</span>
                 <div className="course-title">{courseName || 'Course'}</div>
-                <div className="user-avatar">S</div>
             </div>
 
             <div className="course-body">
@@ -187,24 +185,24 @@ function CoursePage() {
                         <button style={{ marginLeft: 8 }} className="new-task-button" onClick={addTask}>Create Task</button>
                     </div>
                 </div>
-
-                <div className="task-form">
-                    <input placeholder="Title" value={newTaskData.title} onChange={(e) => setNewTaskData({ ...newTaskData, title: e.target.value })} />
-                    <textarea placeholder="Description" value={newTaskData.description} onChange={(e) => setNewTaskData({ ...newTaskData, description: e.target.value })} rows={2} />
-                    <input placeholder="Due" type="date" value={newTaskData.dueDate} onChange={(e) => setNewTaskData({ ...newTaskData, dueDate: e.target.value })} />
-                    <select value={newTaskData.priority} onChange={(e) => setNewTaskData({ ...newTaskData, priority: e.target.value })}>
-                        <option>Low</option>
-                        <option>Medium</option>
-                        <option>High</option>
-                    </select>
-                    <select value={newTaskData.assignedTo} onChange={(e) => setNewTaskData({ ...newTaskData, assignedTo: e.target.value })}>
-                        <option value="">Assign to member...</option>
-                        {members.map((m) => (
-                            <option key={m._id} value={m._id}>{m.displayName || m.email}</option>
-                        ))}
-                    </select>
-                </div>
-
+                {activeTab === 'tasks' && (
+                    <div className="task-form">
+                        <input placeholder="Title" value={newTaskData.title} onChange={(e) => setNewTaskData({ ...newTaskData, title: e.target.value })} />
+                        <textarea placeholder="Description" value={newTaskData.description} onChange={(e) => setNewTaskData({ ...newTaskData, description: e.target.value })} rows={2} />
+                        <input placeholder="Due" type="date" value={newTaskData.dueDate} onChange={(e) => setNewTaskData({ ...newTaskData, dueDate: e.target.value })} />
+                        <select value={newTaskData.priority} onChange={(e) => setNewTaskData({ ...newTaskData, priority: e.target.value })}>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                        </select>
+                        <select value={newTaskData.assignedTo} onChange={(e) => setNewTaskData({ ...newTaskData, assignedTo: e.target.value })}>
+                            <option value="">Assign to member...</option>
+                            {members.map((m) => (
+                                <option key={m._id} value={m._id}>{m.displayName || m.email}</option>
+                            ))}
+                        </select>
+                    </div>
+                )}
                 {activeTab === 'tasks' ? (
                     <div className="task-list">
                         {loading ? (
@@ -212,13 +210,13 @@ function CoursePage() {
                         ) : (
                             tasks.map((task) => (
                                 <div className="task" key={task._id} onClick={() => setSelectedTask(task)}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, cursor: 'pointer' }}>
+                                    <div className="task-box">
                                         <input type="checkbox" checked={task.status === 'Completed'} onChange={() => toggleComplete(task)} onClick={(e) => e.stopPropagation()} />
                                         <div className="task-info">
                                             <div className="task-title">{task.title}</div>
                                             {task.description && <div className="task-desc">{task.description.substring(0, 50)}...</div>}
                                             <div style={{ display: 'flex', gap: 8, marginTop: 6, alignItems: 'center' }}>
-                                                <div className={`priority-badge priority-${(task.priority||'Low').toLowerCase()}`}>{task.priority || 'Low'}</div>
+                                                <div className={`priority-badge priority-${(task.priority || 'Low').toLowerCase()}`}>{task.priority || 'Low'}</div>
                                                 <div className="task-due">Due {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—'}</div>
                                             </div>
                                         </div>
