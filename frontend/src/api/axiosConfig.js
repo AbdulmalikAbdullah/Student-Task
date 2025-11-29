@@ -4,7 +4,6 @@ const api = axios.create({
   baseURL: "http://localhost:5000/api",
 });
 
-// Attach token to every request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -18,13 +17,12 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Auto logout on 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
-      window.location.href = "/"; // Redirect to login
+      window.location.href = "/"; 
     }
 
     return Promise.reject(error);

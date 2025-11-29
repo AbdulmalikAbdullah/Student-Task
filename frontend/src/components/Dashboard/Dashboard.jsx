@@ -15,9 +15,9 @@ function Dashboard() {
     const [joinCode, setJoinCode] = useState("");
     const [joining, setJoining] = useState(false);
     const [createdCourse, setCreatedCourse] = useState(null);
+    const [showNotif, setShowNotif] = useState(false);
     const navigate = useNavigate();
 
-    // fetchCourses is extracted so we can call it after creating a course
     const fetchCourses = async () => {
         setLoading(true);
         setError(null);
@@ -26,7 +26,7 @@ function Dashboard() {
             setCourses(res.data || []);
         } catch (err) {
             console.error("fetch courses error", err);
-            setError(err.response?.data?.msg || err.message || "Failed to fetch courses");
+            setShowNotif(true);
         } finally {
             setLoading(false);
         }
@@ -49,7 +49,7 @@ function Dashboard() {
         setCreating(true);
         try {
             const res = await api.post("/courses/create", { name: newCourseName.trim() });
-            setCreatedCourse(res.data); // store to show code copy modal
+            setCreatedCourse(res.data);
             setNewCourseName("");
             setShowCreate(false);
             await fetchCourses();
@@ -86,7 +86,7 @@ function Dashboard() {
 
                 <div className="dashboard-actions">
                     <button className="add-btn" onClick={handleCreateClick}>+ Create Course</button>
-                    <button className="add-btn" onClick={() => setShowJoin(true)} style={{backgroundColor: '#28a745'}}>+ Join Course</button>
+                    <button className="add-btn" onClick={() => setShowJoin(true)} style={{ backgroundColor: '#28a745' }}>+ Join Course</button>
                 </div>
             </header>
 
@@ -118,6 +118,9 @@ function Dashboard() {
                         </form>
                     </div>
                 </div>
+            )}
+            {showNotif && (
+                <div className="notification">Error fetching courses</div>
             )}
 
             {createdCourse && (

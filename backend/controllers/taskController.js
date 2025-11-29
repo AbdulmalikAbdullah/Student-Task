@@ -1,10 +1,8 @@
 const Task = require("../models/Task.js");
-const Course = require("../models/Course.js");
 
 exports.createTask = async (req, res) => {
     try {
         const { title, description, dueDate, priority, courseId, course } = req.body;
-        // Accept either `courseId` or `course` in the request body (frontend may send either).
         const courseField = courseId || course;
         if (!courseField) {
             return res.status(400).json({ msg: 'course is required' });

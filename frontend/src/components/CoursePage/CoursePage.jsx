@@ -1,30 +1,3 @@
-// import "./CoursePage.css"
-
-// function CoursePage() {
-//     return (
-
-//         <div className="course-container">
-//             <div className="course-title">Computer Networking Cs 256</div>
-//             <div className="task one">Task
-//                 <button className="task-dbutton">Details</button>
-//             </div>
-//             <div className="task one">Task
-//                 <button className="task-dbutton">Details</button>
-//             </div>
-//             <div className="task one">Task
-//                 <button className="task-dbutton">Details</button>
-//             </div>
-//             <div className="task one">Task
-//                 <button className="task-dbutton">Details</button>
-//             </div>
-//         </div>
-
-//     )
-// }
-
-// export default CoursePage
-
-
 import "./CoursePage.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -33,11 +6,10 @@ import socket from "../../api/socket";
 
 function CoursePage() {
     const params = useParams();
-    // support both route param names: `:courseId` or legacy `:id`
     const courseId = params.courseId || params.id;
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('tasks'); // 'tasks' or 'members'
+    const [activeTab, setActiveTab] = useState('tasks');
     const navigate = useNavigate();
 
     const [newTaskData, setNewTaskData] = useState({
@@ -49,17 +21,15 @@ function CoursePage() {
         assignedTo: "",
     });
 
-    const [selectedTask, setSelectedTask] = useState(null); // for task detail modal
-    const [editingTask, setEditingTask] = useState(null); // for edit modal
+    const [selectedTask, setSelectedTask] = useState(null);
+    const [editingTask, setEditingTask] = useState(null);
 
     useEffect(() => {
         if (!courseId) return;
 
-        // Connect socket and join course room
         socket.connect();
         socket.emit("joinCourse", courseId);
 
-        // Socket event listeners
         socket.on("taskCreated", (task) => {
             setTasks((prev) => [task, ...prev]);
         });
@@ -72,7 +42,6 @@ function CoursePage() {
             setTasks((prev) => prev.filter((t) => t._id !== id));
         });
 
-        // Initial fetch
         fetchTasks();
         fetchCourse();
 
@@ -103,12 +72,7 @@ function CoursePage() {
             const res = await api.get(`/courses/${courseId}`);
             const c = res.data;
             setMembers(c.members || []);
-            // prefer course name from server if available
             if (c.name) {
-                // set title in local state
-                // we use courseTitle variable above only for initial param
-                // replace window title display
-                // (we'll store in state below)
                 setCourseName(c.name);
             }
         } catch (err) {
@@ -120,7 +84,6 @@ function CoursePage() {
 
     const addTask = async () => {
         try {
-            // Basic client-side validation to avoid server 400s
             if (!courseId) {
                 console.error('Cannot create task: missing courseId (route param)');
                 return;
@@ -131,11 +94,8 @@ function CoursePage() {
                 console.error('Cannot create task: title is required');
                 return;
             }
-
-            // ensure we include `course` for mongoose validation as some code expects it
             const payload = { ...newTaskData, title, courseId, course: courseId };
             await api.post("/tasks/create", payload);
-            // server will emit 'taskCreated' and update via socket
             setNewTaskData({ title: "", description: "", dueDate: "", priority: "Low", status: "Pending" });
         } catch (err) {
             console.error("addTask error", err);
@@ -148,7 +108,6 @@ function CoursePage() {
     const updateTask = async (id, updates) => {
         try {
             await api.put(`/tasks/${id}`, updates);
-            // server emits 'taskUpdated'
         } catch (err) {
             console.error("updateTask error", err);
         }
@@ -157,7 +116,6 @@ function CoursePage() {
     const deleteTask = async (id) => {
         try {
             await api.delete(`/tasks/${id}`);
-            // server emits 'taskDeleted'
         } catch (err) {
             console.error("deleteTask error", err);
         }
@@ -244,7 +202,6 @@ function CoursePage() {
                 )}
             </div>
 
-            {/* Task Detail Modal */}
             {selectedTask && (
                 <div className="modal-overlay" onClick={() => setSelectedTask(null)}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -262,7 +219,6 @@ function CoursePage() {
                 </div>
             )}
 
-            {/* Edit Task Modal */}
             {editingTask && (
                 <div className="modal-overlay" onClick={() => setEditingTask(null)}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>

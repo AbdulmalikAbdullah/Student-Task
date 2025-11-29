@@ -1,5 +1,4 @@
 const Course = require("../models/Course");
-const User = require("../models/User");
 const Task = require("../models/Task");
 const crypto = require("crypto");
 
@@ -36,7 +35,6 @@ exports.joinCourse = async (req, res) => {
 exports.getMyCourses = async (req, res) => {
     try {
         const courses = await Course.find({ members: req.user.id });
-        // Populate task count for each course
         const coursesWithTasks = await Promise.all(
             courses.map(async (course) => {
                 const taskCount = await Task.countDocuments({ course: course._id });

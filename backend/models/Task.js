@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 
 const Task = new mongoose.Schema({
-title: { type: String, required: true },
-description: { type: String },
-dueDate: { type: Date },
-priority: { type: String, enum: ['Low','Medium','High'], default: 'Low' },
-status: { type: String, enum: ['Pending','Completed'], default: 'Pending' },
-course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
-assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-createdAt: { type: Date, default: Date.now }
+    title: { type: String, required: true },
+    description: { type: String },
+    dueDate: { type: Date },
+    priority: { type: String, enum: ['Low', 'Medium', 'High'], default: 'Low' },
+    status: { type: String, enum: ['Pending', 'Completed'], default: 'Pending' },
+    course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
+    assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    createdAt: { type: Date, default: Date.now }
 });
 
 

@@ -1,0 +1,54 @@
+.notification-error {
+  position: absolute;
+  top: 100%;
+  left: 8%;
+  width: 80%;
+  padding: 10px;
+  background-color: rgba(255, 77, 77, 0.1);
+  border: 1px solid #ff4d4d;
+  border-radius: 10px;
+  z-index: 2;
+  margin-top: 15px;
+  color: #ff4d4d;
+  font-weight: bold;
+  animation: notification-fadeIn 0.6s forwards, notification-fadeOut 0.6s forwards 1.8s;
+
+}
+
+.notification-success {
+  position: absolute;
+  top: 100%;
+  left: 8%;
+  width: 80%;
+  padding: 10px;
+  background-color: rgba(77, 255, 77, 0.1);
+  border: 1px solid #4dff4d;
+  border-radius: 10px;
+  z-index: 2;
+  margin-top: 15px;
+  color: #4dff4d;
+  font-weight: bold;
+  animation: notification-fadeIn 0.6s forwards, notification-fadeOut 0.6s forwards 1.8s;
+
+}
+
+@keyframes notification-fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+
+  }
+}
+
+@keyframes notification-fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

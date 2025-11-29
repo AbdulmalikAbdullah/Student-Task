@@ -13,25 +13,19 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 
 const io = new Server(server, {
-    cors:{ origin: process.env.CLIENT_URLs || "*"}
+    cors: { origin: process.env.CLIENT_URLs || "*" }
 });
 
-// Connect to database
 connectDB();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
-
-// Make io available in controllers via req.app.locals.io
 app.locals.io = io;
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// Basic Socket.IO handlers
+
 io.on('connection', (socket) => {
     console.log('New WebSocket connection:', socket.id);
 

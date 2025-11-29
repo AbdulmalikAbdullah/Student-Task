@@ -2,10 +2,10 @@ import "./CourseCard.css";
 
 function CourseCard({
     src = "https://placehold.co/600x400/EEE/31343C",
-    title = "CS 350",
+    title = "Course Title",
     tasks = 0,
     createdCourse = null,
-    onView = () => {},
+    onView = () => { },
 }) {
     return (
         <article className="card">
