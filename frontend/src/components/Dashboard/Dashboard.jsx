@@ -1,5 +1,6 @@
 import "./Dashboard.css";
 import CourseCard from "./CourseCard.jsx";
+import Navbar from "../Navbar/Navbar.jsx";
 import { useEffect, useState } from "react";
 import api from "../../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
@@ -80,7 +81,9 @@ function Dashboard() {
     };
 
     return (
-        <main className="dashboard">
+        <>
+            <Navbar />
+            <main className="dashboard">
             <header className="dashboard-header">
                 <h2 className="dashboard-title">My Courses</h2>
 
@@ -158,7 +161,8 @@ function Dashboard() {
                     </div>
                 </div>
             )}
-        </main>
+            </main>
+        </>
     );
 }
 

@@ -18,10 +18,8 @@ function Register() {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        const fullName = `${firstName} ${lastName}`;
-
         try {
-            await register({ displayName: fullName, email, password });
+            await register({ firstName, lastName, email, password });
             setShowNotifsuccess(true);
             setTimeout(() => {
                 setShowNotifsuccess(false);

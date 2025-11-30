@@ -1,6 +1,7 @@
 .dashboard {
     display: block;
     padding: 18px;
+    padding-top: 80px;
     z-index: 1;
 }
 
