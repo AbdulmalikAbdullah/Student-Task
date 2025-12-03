@@ -14,7 +14,7 @@
 
 .modal-header h3 {
   margin: 0;
-  color: #fff;
+  color: #000000;
 }
 
 .close-btn {
@@ -33,18 +33,20 @@
 }
 
 .close-btn:hover {
-  color: #fff;
+  color: #000000;
 }
 
 .profile-view {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
 }
 
 .profile-item {
   display: flex;
   flex-direction: column;
+  width: 60%;
 }
 
 .profile-item label {
@@ -56,10 +58,10 @@
 }
 
 .profile-item p {
-  color: #fff;
+  color: #000000;
   margin: 0;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(243, 243, 243);
   border-radius: 6px;
   border-left: 2px solid #4f46e5;
 }
@@ -77,6 +79,8 @@
 .form-group {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  align-items: center;
   gap: 8px;
 }
 
@@ -90,16 +94,16 @@
   padding: 12px;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
+  background: rgb(243, 243, 243);
+  color: rgb(0, 0, 0);
   font-size: 14px;
   transition: all 0.3s ease;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #4f46e5;
-  background: rgba(79, 70, 229, 0.1);
+  border-color: #0063cd;
+  background: hwb(211 0% 20% / 0.297);
 }
 
 .form-group input:disabled {
@@ -119,7 +123,7 @@
 }
 
 .message.success {
-  background: rgba(16, 185, 129, 0.2);
+  background: #10b98133;
   color: #10b981;
   border: 1px solid #10b981;
 }
@@ -139,6 +143,10 @@
 
 .form-actions .btn {
   flex: 1;
+}
+
+.profile-Icon{
+  margin-bottom: -1px;
 }
 
 @media (max-width: 500px) {

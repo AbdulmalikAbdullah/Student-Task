@@ -1,0 +1,20 @@
+.create-task-modal .modal-actions {
+    background-color: #ffffff;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.create-task-modal input,
+.create-task-modal textarea,
+.create-task-modal select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+}
+
+.create-task-modal .btn {
+    padding: 6px 10px;
+}
+

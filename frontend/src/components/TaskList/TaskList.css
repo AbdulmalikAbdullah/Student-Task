@@ -1,0 +1,131 @@
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #b2b2b2;
+    border-radius: 6px;
+}
+
+.task-box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.task-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    font-weight: 600;
+    color: #0275d8;
+}
+
+.task-desc {
+    color: #666;
+    font-size: 0.9rem;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.priority-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+.priority-low {
+    background: #e6f7ff;
+    color: #0275d8;
+}
+
+.priority-medium {
+    background: #fff4e6;
+    color: #d97706;
+}
+
+.priority-high {
+    background: #ffe6e6;
+    color: #d32f2f;
+}
+
+.custom-checkbox input {
+    display: none;
+}
+
+.custom-checkbox .checkmark {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #888;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.custom-checkbox input:checked+.checkmark {
+    background-color: #0275d8;
+    border-color: #0275d8;
+}
+
+.custom-checkbox .checkmark::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+}
+
+.custom-checkbox input:checked+.checkmark::after {
+    opacity: 1;
+}
+
+.task-due {
+    font-size: 0.9rem;
+    color: black;
+}
+
+.due-Icon {
+    margin-bottom: -7px;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.view-details {
+    padding: 6px 12px;
+    margin-left: auto;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+
+.view-details:hover {
+    box-shadow: 0 0 15px #007bff;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.assign-to{
+    color: black;
+    border: 1px solid rgb(162, 162, 162);
+    padding: 1px 2px 1px 2px;
+    border-radius: 5px;
+    box-shadow: -3px 1px rgba(164, 164, 164, 0.707);
+}

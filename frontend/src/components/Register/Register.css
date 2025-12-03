@@ -1,10 +1,10 @@
 .registerBox {
     position: relative;
     min-width: 400px;
-    background-color: rgb(56, 56, 56);
+    background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: column;
-    border: 2px solid rgba(82, 82, 82, 0.685);
+    border: 2px solid #b2b2b2;
     align-items: center;
     align-content: center;
     padding: 50px;
@@ -17,14 +17,17 @@
 
 .welcome-h2 {
     margin-top: -50px;
-
+    color: black;
 }
+
 
 .register-button {
     width: 400px;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid hsla(0, 0%, 75%, 0.432);
+    background-color: #f3f3f3;
+    border: 1px solid #b2b2b2;
+    color: black;
 }
 
 .register-button:hover {
@@ -33,4 +36,22 @@
     width: 410px;
     cursor: pointer;
     transition: 0.8s;
+}
+
+.input-fname,
+.input-lname {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+  width: 185px;
+  border: 1px solid #b2b2b2;
+  color: black;
+}
+
+.input-fname {
+  margin-right: 5px;
+}
+
+.input-lname {
+  margin-left: 5px;
 }

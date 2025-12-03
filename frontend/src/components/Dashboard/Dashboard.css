@@ -1,12 +1,14 @@
 .dashboard {
     display: block;
-    padding: 18px;
     padding-top: 80px;
     z-index: 1;
+    height: 100vh;
+    width: 100%;
+    overflow-y: auto;
 }
 
 .dashboard-header {
-    grid-column: 1 / -1;
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,8 +16,8 @@
 }
 
 .dashboard-title {
-    margin: 0;
-    color: #fff;
+    justify-content: flex-start;
+    color: #000000;
 }
 
 .dashboard-actions {
@@ -26,6 +28,7 @@
 
 .add-btn {
     padding: 8px 12px;
+    margin-right: 15px;
     background: #10b981;
     border: none;
     border-radius: 8px;
@@ -33,49 +36,50 @@
     cursor: pointer;
 }
 
-.courses-grid {
+.add-btn:hover {
+    background-color: #0b7f58;
+    transition: all 0.5s;
+}
+
+.join-btn {
+    padding: 8px 12px;
+    margin-right: 15px;
+    background: #28a745;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.join-btn:hover {
+    background-color: #0a6849;
+    transition: all 0.5s;
+}
+
+
+.Cards-container {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+
+    align-items: center;
+}
+
+.courses-grid {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 12px;
     align-items: flex-start;
-}
-
-.modal {
-    background: linear-gradient(180deg, #2b2b2b, #1f1f1f);
-    padding: 18px;
-    border-radius: 10px;
-    width: 360px;
-    max-width: calc(100% - 40px);
-    color: white;
-    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.6);
-}
-
-.modal input {
-    width: 80%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: linear-gradient(180deg, #2b2b2b, #1f1f1f);
-    color: white;
-    margin-bottom: 12px;
-}
-
-.modal-actions {
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-}
-
-.btn .primary {
-    background: #4f46e5;
-    color: white;
 }
 
 .share-code {
     display: flex;
     flex-direction: column;
     width: 80%;
-    background-color: #343434;
+    background-color: #ffffff;
     padding: 12px;
     border-radius: 6px;
     text-align: center;
@@ -97,4 +101,9 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.code-copy:hover {
+    background-color: #5a5a5a;
+    transition: all 0.5s;
 }

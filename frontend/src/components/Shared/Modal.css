@@ -1,0 +1,89 @@
+/* Shared modal base styles - neutral (light) theme */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+}
+
+.modal {
+    background: #ffffff;
+    color: #111;
+    padding: 20px;
+    border-radius: 8px;
+    width: 420px;
+    max-width: calc(100% - 40px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.modal h3 {
+    margin: 0 0 12px 0;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: black;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+
+.modal {
+    background: white;
+    color: black;
+    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.6);
+}
+
+
+.btn.primary {
+    background: #0275d8;
+    color: #ffffff;
+    border: 1px solid #b3b3b3;
+}
+
+.btn.ghost {
+    background: gray;
+    color: #ffffff;
+    border: 1px solid #b3b3b3;
+}
+
+.btn.leave {
+    background: #ff0000;
+    color: #ffffff;
+    border: 1px solid #b3b3b3;
+}
+
+
+.btn.primary:hover {
+    background-color: #00549d;
+    transition: all 0.5s;
+}
+
+.btn.ghost:hover {
+    background-color: #5a5a5a;
+    transition: all 0.5s;
+}
+
+.btn.leave:hover {
+    background-color: #b70000;
+    transition: all 0.5s;
+}
+
