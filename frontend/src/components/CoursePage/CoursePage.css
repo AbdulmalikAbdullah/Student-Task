@@ -17,13 +17,10 @@
   border-bottom: 4px solid #000000;
 }
 
-
-
 .course-title {
   font-size: 24px;
   font-weight: bold;
 }
-
 
 .course-body {
   padding: 15px;
@@ -44,25 +41,27 @@
 }
 
 .tab.active {
-  color: #007bff;
-  border-bottom: 2px solid #007bff;
+  color: #4f46e5;
+  border-bottom: 2px solid #4f46e5;
 }
 
-.new-task-button {
-  padding: 6px 12px;
-  background-color: #007bff;
+.new-task-button,
+.back-button {
+  padding: 10px 16px;
+  background-color: #4f46e5;
   border: none;
   border-radius: 6px;
   color: white;
   cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-.back-button {
-  padding: 6px 10px;
-  background: #007bff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.new-task-button:hover,
+.back-button:hover {
+  background: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
 }
 
 .task-list {
@@ -84,7 +83,6 @@
 .task-box {
   display: flex;
   align-items: center;
-
   gap: 5px;
   flex: 1;
   cursor: pointer;
@@ -104,12 +102,11 @@
 
 .task-title {
   font-weight: bold;
-
 }
 
 .task-assigned {
   font-size: 12px;
-  color: #777;
+  color: #0f0d0d;
 }
 
 .task-due {
@@ -117,24 +114,33 @@
   color: #ffffff;
 }
 
+.task-desc {
+  font-size: 12px;
+  color: #aaa;
+}
+
 .priority-badge {
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 12px;
   color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .priority-low {
   background: #6c757d;
+  border-color: rgba(0, 0, 0, 0.4);
 }
 
 .priority-medium {
   background: #ffc107;
   color: #333;
+  border-color: rgba(0, 0, 0, 0.4);
 }
 
 .priority-high {
   background: #dc3545;
+  border-color: rgba(0, 0, 0, 0.4);
 }
 
 .members-panel {
@@ -145,10 +151,11 @@
   padding: 8px 10px;
   border-radius: 6px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .member-row:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .task-form {
@@ -158,34 +165,54 @@
   border-radius: 6px;
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: #d1d1d1;
-  opacity: 1;
-}
-
 .task-form input,
 .task-form textarea {
-  margin-bottom: 8px;
-  width: 99%;
-  padding: 8px;
-  border: 1px solid #747474;
-  border-radius: 4px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
   font-size: 14px;
   font-family: inherit;
-  color: #d1d1d1;
+  transition: all 0.3s ease;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
 
+.task-form input:focus,
+.task-form textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.1);
+}
+
+.task-form input::placeholder,
+.task-form textarea::placeholder {
+  color: #666;
 }
 
 .task-form select {
   margin: 8px;
-  width: 12%;
-  padding: 8px;
-  border: 1px solid #747474;
-  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
   font-size: 14px;
   font-family: inherit;
-  color: #d1d1d1;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.task-form select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.1);
+}
+
+.task-form select option {
+  background: white;
+  color: black;
 }
 
 .modal-overlay {
@@ -196,55 +223,110 @@ textarea::placeholder {
   align-items: center;
   justify-content: center;
   z-index: 60;
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .modal {
-  padding: 20px;
-  border-radius: 8px;
+  padding: 24px;
+  border-radius: 10px;
   width: 400px;
   max-width: calc(100% - 40px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(180deg, #2b2b2b, #1f1f1f);
+  color: white;
 }
 
 .modal h3 {
   margin-top: 0;
   margin-bottom: 16px;
+  color: #fff;
 }
 
 .modal input,
 .modal textarea,
 .modal select {
-  width: 80%;
-  padding: 8px;
-  margin-bottom: 8px;
-  border: 1px solid #747474;
-  border-radius: 4px;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
   font-family: inherit;
   font-size: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.1);
+}
+
+.modal input::placeholder,
+.modal textarea::placeholder {
+  color: #666;
+}
+
+.modal select option {
+  background: white;
+  color: black;
 }
 
 .modal-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-top: 16px;
   justify-content: flex-end;
 }
 
 .btn {
-  padding: 8px 16px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .btn.primary {
-  background: #007bff;
+  background: #4f46e5;
   color: white;
+}
+
+.btn.primary:hover {
+  background: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
 }
 
 .btn.ghost {
   background: transparent;
-  color: #007bff;
-  border: 1px solid #007bff;
+  color: #ccc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+button {
+  padding: 6px 10px;
+  background: #4f46e5;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #6366f1;
+  transform: translateY(-2px);
 }
