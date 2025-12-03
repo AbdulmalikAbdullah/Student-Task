@@ -42,6 +42,35 @@ function Dashboard() {
         navigate(`/course/${course._id}`);
     };
 
+    const handleDelete = async (courseId) => {
+        if (!window.confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
+            return;
+        }
+        try {
+            await api.delete(`/courses/${courseId}`);
+            alert('Course deleted successfully');
+            await fetchCourses();
+        } catch (err) {
+            console.error("deleteCourse error", err);
+            alert(err.response?.data?.msg || 'Failed to delete course');
+        }
+    };
+
+    const handleUpdate = async (courseId, newName) => {
+        if (!newName.trim()) {
+            alert('Course name cannot be empty');
+            return;
+        }
+        try {
+            await api.put(`/courses/${courseId}`, { name: newName.trim() });
+            await fetchCourses();
+            alert('Course updated successfully');
+        } catch (err) {
+            console.error("updateCourse error", err);
+            alert(err.response?.data?.msg || 'Failed to update course');
+        }
+    };
+
     const handleCreateClick = () => setShowCreate(true);
 
     const handleCreate = async (e) => {
@@ -99,7 +128,17 @@ function Dashboard() {
                 {!loading && !error && courses.length === 0 && <p>No courses found. Create or join a course.</p>}
 
                 {!loading && !error && courses.map((c) => (
-                    <CourseCard key={c._id} src={c.image || `https://placehold.co/600x400/333/fff?text=${encodeURIComponent(c.name)}`} title={c.name} tasks={c.taskCount || 0} createdCourse={c.code} onView={() => handleView(c)} />
+                    <CourseCard 
+                        key={c._id} 
+                        courseId={c._id}
+                        src={c.image || `https://placehold.co/600x400/333/fff?text=${encodeURIComponent(c.name)}`} 
+                        title={c.name} 
+                        tasks={c.taskCount || 0} 
+                        createdCourse={c.code} 
+                        onView={() => handleView(c)}
+                        onDelete={() => handleDelete(c._id)}
+                        onUpdate={(newName) => handleUpdate(c._id, newName)}
+                    />
                 ))}
             </section>
 

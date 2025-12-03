@@ -81,6 +81,9 @@ function CoursePage() {
     };
 
     const [courseName, setCourseName] = useState('');
+    const [showUpdateCourse, setShowUpdateCourse] = useState(false);
+    const [updatingCourseName, setUpdatingCourseName] = useState('');
+    const [deletingCourse, setDeletingCourse] = useState(false);
 
     const addTask = async () => {
         try {
@@ -126,6 +129,39 @@ function CoursePage() {
         updateTask(task._id, { status: newStatus });
     };
 
+    const handleDeleteCourse = async () => {
+        if (!window.confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
+            return;
+        }
+        setDeletingCourse(true);
+        try {
+            await api.delete(`/courses/${courseId}`);
+            alert('Course deleted successfully');
+            navigate('/dashboard');
+        } catch (err) {
+            console.error("deleteCourse error", err);
+            alert(err.response?.data?.msg || 'Failed to delete course');
+        } finally {
+            setDeletingCourse(false);
+        }
+    };
+
+    const handleUpdateCourse = async () => {
+        if (!updatingCourseName.trim()) {
+            alert('Course name cannot be empty');
+            return;
+        }
+        try {
+            await api.put(`/courses/${courseId}`, { name: updatingCourseName.trim() });
+            setCourseName(updatingCourseName.trim());
+            setShowUpdateCourse(false);
+            setUpdatingCourseName('');
+        } catch (err) {
+            console.error("updateCourse error", err);
+            alert(err.response?.data?.msg || 'Failed to update course');
+        }
+    };
+
     return (
         <div className="course-container">
             <div className="course-header">
@@ -156,7 +192,7 @@ function CoursePage() {
                         <select value={newTaskData.assignedTo} onChange={(e) => setNewTaskData({ ...newTaskData, assignedTo: e.target.value })}>
                             <option value="">Assign to member...</option>
                             {members.map((m) => (
-                                <option key={m._id} value={m._id}>{m.displayName || m.email}</option>
+                                <option key={m._id} value={m._id}>{m.firstName} {m.lastName}</option>
                             ))}
                         </select>
                     </div>
@@ -193,8 +229,8 @@ function CoursePage() {
                             <div>No members</div>
                         ) : (
                             members.map((m) => (
-                                <div key={m._id} className="member-row" onClick={() => alert(m.displayName || m.email)}>
-                                    {m.displayName || m.email}
+                                <div key={m._id} className="member-row" onClick={() => alert(`${m.firstName} ${m.lastName}` || m.email)}>
+                                    {m.firstName} {m.lastName}
                                 </div>
                             ))
                         )}
@@ -210,7 +246,7 @@ function CoursePage() {
                         <p><strong>Due:</strong> {selectedTask.dueDate ? new Date(selectedTask.dueDate).toLocaleDateString() : '—'}</p>
                         <p><strong>Priority:</strong> {selectedTask.priority || 'Low'}</p>
                         <p><strong>Status:</strong> {selectedTask.status}</p>
-                        {selectedTask.assignedTo && <p><strong>Assigned to:</strong> {members.find(m => m._id === selectedTask.assignedTo)?.displayName || 'Unknown'}</p>}
+                        {selectedTask.assignedTo && <p><strong>Assigned to:</strong> {members.find(m => m._id === selectedTask.assignedTo) ? `${members.find(m => m._id === selectedTask.assignedTo).firstName} ${members.find(m => m._id === selectedTask.assignedTo).lastName}` : 'Unknown'}</p>}
                         <div className="modal-actions">
                             <button className="btn ghost" onClick={() => setSelectedTask(null)}>Close</button>
                             <button className="btn primary" onClick={() => { setEditingTask(selectedTask); setSelectedTask(null); }}>Edit</button>
@@ -254,7 +290,7 @@ function CoursePage() {
                             >
                                 <option value="">Assign to member...</option>
                                 {members.map((m) => (
-                                    <option key={m._id} value={m._id}>{m.displayName || m.email}</option>
+                                    <option key={m._id} value={m._id}>{m.firstName} {m.lastName}</option>
                                 ))}
                             </select>
                             <div className="modal-actions">

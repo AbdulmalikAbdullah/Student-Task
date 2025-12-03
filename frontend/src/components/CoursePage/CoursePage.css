@@ -83,13 +83,29 @@
 .task-box {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 15px;
   flex: 1;
   cursor: pointer;
 }
 
 .task input[type="checkbox"] {
-  margin-right: 12px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: #4f46e5;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.task input[type="checkbox"]:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(79, 70, 229, 0.5);
+}
+
+.task input[type="checkbox"]:checked {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
 }
 
 .task-info {
