@@ -32,8 +32,7 @@
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  margin-top: 12px;
-  margin-bottom: auto;
+  margin-bottom: 10%;
 }
 
 .welcomeBack-h1 {
@@ -49,7 +48,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: 10%;
+
 }
 
 .welcomeBack-h2 {
@@ -80,11 +79,10 @@
   align-items: stretch;
 
 
-  padding: 50px;
+  padding: 30px;
   font-size: 18px;
   border-radius: 15px;
   filter: drop-shadow(0px 0px 10px rgb(255, 255, 255, 0.4));
-  margin-bottom: 50%;
 }
 
 
