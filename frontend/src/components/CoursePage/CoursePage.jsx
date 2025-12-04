@@ -10,6 +10,7 @@ function CoursePage() {
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('tasks');
+    const [draggedTask, setDraggedTask] = useState(null);
     const navigate = useNavigate();
 
     const [newTaskData, setNewTaskData] = useState({
@@ -40,6 +41,10 @@ function CoursePage() {
 
         socket.on("taskDeleted", ({ id }) => {
             setTasks((prev) => prev.filter((t) => t._id !== id));
+        });
+
+        socket.on("tasksReordered", (reorderedTasks) => {
+            setTasks(reorderedTasks);
         });
 
         fetchTasks();
@@ -129,6 +134,48 @@ function CoursePage() {
         updateTask(task._id, { status: newStatus });
     };
 
+    const handleDragStart = (e, task) => {
+        setDraggedTask(task);
+        e.dataTransfer.effectAllowed = 'move';
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    };
+
+    const handleDrop = (e, targetTask) => {
+        e.preventDefault();
+        
+        if (!draggedTask || draggedTask._id === targetTask._id) {
+            setDraggedTask(null);
+            return;
+        }
+
+        const draggedIndex = tasks.findIndex(t => t._id === draggedTask._id);
+        const targetIndex = tasks.findIndex(t => t._id === targetTask._id);
+
+        const newTasks = [...tasks];
+        newTasks.splice(draggedIndex, 1);
+        newTasks.splice(targetIndex, 0, draggedTask);
+
+        setTasks(newTasks);
+        setDraggedTask(null);
+
+        // Send reorder request to backend
+        const taskIds = newTasks.map(t => t._id);
+        api.post('/tasks/reorder', { taskIds, courseId })
+            .catch(err => {
+                console.error('reorder tasks error', err);
+                // Revert to original order on error
+                fetchTasks();
+            });
+    };
+
+    const handleDragEnd = () => {
+        setDraggedTask(null);
+    };
+
     const handleDeleteCourse = async () => {
         if (!window.confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
             return;
@@ -203,7 +250,16 @@ function CoursePage() {
                             <div>Loading...</div>
                         ) : (
                             tasks.map((task) => (
-                                <div className="task" key={task._id} onClick={() => setSelectedTask(task)}>
+                                <div 
+                                    className={`task ${draggedTask && draggedTask._id === task._id ? 'dragging' : ''}`}
+                                    key={task._id} 
+                                    onClick={() => setSelectedTask(task)}
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e, task)}
+                                    onDragOver={handleDragOver}
+                                    onDrop={(e) => handleDrop(e, task)}
+                                    onDragEnd={handleDragEnd}
+                                >
                                     <div className="task-box">
                                         <input type="checkbox" checked={task.status === 'Completed'} onChange={() => toggleComplete(task)} onClick={(e) => e.stopPropagation()} />
                                         <div className="task-info">

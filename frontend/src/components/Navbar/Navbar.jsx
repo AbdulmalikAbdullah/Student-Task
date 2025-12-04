@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ProfileModal from "../Profile/ProfileModal";
+import Notifications from "../notification/Notifications.jsx";
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
@@ -25,6 +26,8 @@ function Navbar() {
           </div>
 
           <div className="navbar-buttons">
+            <Notifications />
+            
             <button
               className="nav-btn profile-btn"
               onClick={() => setShowProfileModal(true)}
