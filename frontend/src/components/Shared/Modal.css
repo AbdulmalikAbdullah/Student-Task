@@ -71,6 +71,10 @@
     border: 1px solid #b3b3b3;
 }
 
+.btn.secondary{
+    background-color: #667eea;
+}
+
 
 .btn.primary:hover {
     background-color: #00549d;
@@ -86,4 +90,5 @@
     background-color: #b70000;
     transition: all 0.5s;
 }
+
 

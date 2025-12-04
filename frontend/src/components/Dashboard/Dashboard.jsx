@@ -1,3 +1,4 @@
+import '../Shared/Modal.css';
 import "./Dashboard.css";
 import Mytasks from "../Mytasks/Mytasks.jsx"
 import CourseCard from "./CourseCard.jsx";
@@ -73,19 +74,6 @@ function Dashboard() {
 
         }
     }
-    const handleLeave = async (code) => {
-        try {
-            /*
-            
-                TO DO CONFIRMATION OVERLAY
-            
-            */
-            await api.post("/courses/leave", { code: code });
-            await fetchCourses();
-        } catch (err) {
-            console.error('Leave course error', err);
-        }
-    };
 
     const handleCreateClick = () => setShowCreate(true);
 
@@ -103,11 +91,13 @@ function Dashboard() {
             const res = await api.post("/courses/create", {
                 name: newCourseName.trim(),
                 courseCode: newCourseCode.trim(),
+
             });
+
 
             setCreatedCourse(res.data);
             setNewCourseName("");
-            setNewCourseCode("");
+            setNewCourseCode(newCourseCode);
             setShowCreate(false);
 
             await fetchCourses();
@@ -116,6 +106,7 @@ function Dashboard() {
             alert(err.response?.data?.msg || "Failed to create course");
         } finally {
             setCreating(false);
+            setNewCourseCode("")
         }
     };
 
@@ -192,6 +183,7 @@ function Dashboard() {
                                 courseId={c._id}
                                 src={c.image || `https://placehold.co/600x400/ddd/sss?text=${encodeURIComponent(c.name)}`}
                                 title={c.name}
+                                courseCode={c.courseCode}
                                 tasks={c.taskCount || 0}
                                 createdCourse={c.code}
                                 onView={() => handleView(c)}

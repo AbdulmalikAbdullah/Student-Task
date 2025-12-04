@@ -1,8 +1,8 @@
 import "./CourseCard.css";
+import '../Shared/Modal.css';
 import { useState } from "react";
 
 function CourseCard({
-    courseId,
     src = "https://placehold.co/600x400/EEE/31343C",
     title = "Course Title",
     courseCode = "x",
@@ -34,12 +34,13 @@ function CourseCard({
 
                 <div className="card-body">
                     <h4 className="card-title">{title}</h4>
+                    <p className="card-courseCode">{courseCode}</p>
                     <p className="card-sub">{tasks} tasks</p>
                     <p className="card-sub">Course Code: {createdCourse}</p>
                     <div className="card-actions">
                         <button className="btn primary" onClick={onView}>View</button>
                         <button className="btn secondary" onClick={handleUpdateClick}>Update</button>
-                        <button className="btn danger" onClick={onDelete}>Delete</button>
+                        <button className="btn leave" onClick={onDelete}>Delete</button>
                     </div>
                 </div>
             </article>
