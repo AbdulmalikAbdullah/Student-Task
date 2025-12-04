@@ -9,6 +9,7 @@ const Task = new mongoose.Schema({
     status: { type: String, enum: ['Pending', 'Completed'], default: 'Pending' },
     course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
     assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    order: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now }
 });
 
