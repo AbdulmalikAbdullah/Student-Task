@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './TaskList.css';
 
-export default function TaskList({ tasks, loading, onSelect, onToggleComplete, onDragEnd }) {
+export default function TaskList({ tasks, members = [], loading, onSelect, onToggleComplete, onDragEnd }) {
   const [draggedId, setDraggedId] = useState(null);
   
   if (loading) return <div>Loading...</div>;
@@ -72,7 +72,7 @@ export default function TaskList({ tasks, loading, onSelect, onToggleComplete, o
               <div style={{ display: 'flex', gap: 8, marginTop: 6, alignItems: 'center' }}>
                 <div className={`priority-badge priority-${(task.priority || 'Low').toLowerCase()}`}>{task.priority || 'Low'}</div>
                 <div className="task-due"><img className='due-Icon' src="../../../assets/dueIcon.svg" alt="Date Icon" />{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—'}</div>
-                <div className='assign-to'>not assignedTo anyone</div>
+                <div className='assign-to'><strong>Assigned to:</strong> {task.assignedTo ? `${members.find(m => m._id === task.assignedTo)?.firstName || 'Unknown'} ${members.find(m => m._id === task.assignedTo)?.lastName || ''}`.trim() : 'not assignedTo anyone'}</div>
               </div>
             </div>
           </div>

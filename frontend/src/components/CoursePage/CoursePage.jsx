@@ -285,6 +285,7 @@ function CoursePage() {
                     {activeTab === 'tasks' ? (
                         <TaskList
                             tasks={filteredTasks}
+                            members={members}
                             loading={loading}
                             onSelect={(t) => setSelectedTask(t)}
                             onToggleComplete={toggleComplete}

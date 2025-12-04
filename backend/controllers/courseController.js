@@ -91,9 +91,13 @@ exports.getCourseById = async (req, res) => {
 
 exports.updateCourseName = async (req, res) => {
     try {
-        const { name } = req.body;
+        const { name, courseCode } = req.body;
+        
         if (!name || !name.trim()) {
             return res.status(400).json({ msg: 'Course name is required' });
+        }
+        if (!courseCode || !courseCode.trim()) {
+            return res.status(400).json({ msg: 'Course code is required' });
         }
 
         const course = await Course.findById(req.params.id);
@@ -108,11 +112,12 @@ exports.updateCourseName = async (req, res) => {
         }
 
         course.name = name.trim();
+        course.courseCode = courseCode.trim();
         await course.save();
         res.json(course);
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('updateCourseName error');
+        console.error('updateCourseName error:', err.message);
+        res.status(500).json({ msg: 'updateCourseName error', error: err.message });
     }
 };
 

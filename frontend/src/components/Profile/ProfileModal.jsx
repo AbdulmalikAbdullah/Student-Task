@@ -146,7 +146,7 @@ function ProfileModal({ user, onClose }) {
                 type="password"
                 id="password"
                 name="password"
-                placeholder="Leave empty to keep current password"
+                placeholder="new password"
                 value={formData.password}
                 onChange={handleInputChange}
               />

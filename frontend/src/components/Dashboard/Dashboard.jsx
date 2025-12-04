@@ -59,13 +59,16 @@ function Dashboard() {
         }
     };
 
-    const handleUpdate = async (courseId, newName) => {
-        if (!newName.trim()) {
-            alert('Course name cannot be empty');
+    const handleUpdate = async (courseId, newName, newCode) => {
+        if (!newName.trim() || !newCode.trim()) {
+            alert('Course name and code cannot be empty');
             return;
         }
         try {
-            await api.put(`/courses/${courseId}`, { name: newName.trim() });
+            await api.put(`/courses/${courseId}`, { 
+                name: newName.trim(),
+                courseCode: newCode.trim()
+            });
             await fetchCourses();
             alert('Course updated successfully');
         } catch (err) {
@@ -148,27 +151,6 @@ function Dashboard() {
                         <button className="add-btn" onClick={handleCreateClick}>+ Create Course</button>
                         <button className="join-btn" onClick={() => setShowJoin(true)}>+ Join Course</button>
                     </div>
-                    {
-                        showCreate && (
-                            <div className="modal-overlay" onClick={() => setShowCreate(false)}>
-                                <div className="modal" onClick={(e) => e.stopPropagation()}>
-                                    <h3>Create a Course</h3>
-                                    <form onSubmit={handleCreate}>
-                                        <input
-                                            placeholder="Course name"
-                                            value={newCourseName}
-                                            onChange={(e) => setNewCourseName(e.target.value)}
-                                            required
-                                        />
-                                        <div className="modal-actions">
-                                            <button type="button" className="btn ghost" onClick={() => setShowCreate(false)}>Cancel</button>
-                                            <button type="submit" className="btn primary">{creating ? 'Creating...' : 'Create'}</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        )}
                 </header>
 
                 <div className="Cards-container">
@@ -188,7 +170,7 @@ function Dashboard() {
                                 createdCourse={c.code}
                                 onView={() => handleView(c)}
                                 onDelete={() => handleDelete(c._id)}
-                                onUpdate={(newName) => handleUpdate(c._id, newName)}
+                                onUpdate={(newName, newCode) => handleUpdate(c._id, newName, newCode)}
                             />))}
                     </section>
                 </div>
@@ -198,21 +180,25 @@ function Dashboard() {
                     <div className="modal-overlay" onClick={() => setShowCreate(false)}>
                         <div className="modal" onClick={(e) => e.stopPropagation()}>
                             <h3>Create a Course</h3>
-                            <form onSubmit={handleCreate}>
-                                <input
-                                    className="course-code-input"
-                                    placeholder="Course Code (ex, CS 150)"
-                                    value={newCourseCode}
-                                    onChange={(e) => setNewCourseCode(e.target.value)}
-                                    required
-                                />
-                                <input
-                                    className="Course-name-input"
-                                    placeholder="Course Name (ex, Cloud Computing)"
-                                    value={newCourseName}
-                                    onChange={(e) => setNewCourseName(e.target.value)}
-                                    required
-                                />
+                            <form onSubmit={handleCreate} className="course-form">
+                                <div className="form-group">
+                                    <input
+                                        className="course-input"
+                                        placeholder="Course Code (ex, CS 150)"
+                                        value={newCourseCode}
+                                        onChange={(e) => setNewCourseCode(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <input
+                                        className="course-input"
+                                        placeholder="Course Name (ex, Cloud Computing)"
+                                        value={newCourseName}
+                                        onChange={(e) => setNewCourseName(e.target.value)}
+                                        required
+                                    />
+                                </div>
                                 <div className="modal-actions">
                                     <button type="button" className="btn ghost" onClick={() => setShowCreate(false)}>Cancel</button>
                                     <button type="submit" className="btn primary">{creating ? 'Creating...' : 'Create'}</button>

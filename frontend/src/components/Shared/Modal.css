@@ -45,14 +45,6 @@
     margin-top: 12px;
 }
 
-
-.modal {
-    background: white;
-    color: black;
-    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.6);
-}
-
-
 .btn.primary {
     background: #0275d8;
     color: #ffffff;

@@ -14,14 +14,16 @@ function CourseCard({
 }) {
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [updatedName, setUpdatedName] = useState(title);
+    const [updatedCode, setUpdatedCode] = useState(courseCode);
 
     const handleUpdateClick = () => {
         setUpdatedName(title);
+        setUpdatedCode(courseCode);
         setShowUpdateModal(true);
     };
 
     const handleConfirmUpdate = () => {
-        onUpdate(updatedName);
+        onUpdate(updatedName, updatedCode);
         setShowUpdateModal(false);
     };
 
@@ -48,12 +50,25 @@ function CourseCard({
             {showUpdateModal && (
                 <div className="modal-overlay" onClick={() => setShowUpdateModal(false)}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <h3>Update Course Name</h3>
-                        <input
-                            placeholder="Course name"
-                            value={updatedName}
-                            onChange={(e) => setUpdatedName(e.target.value)}
-                        />
+                        <h3>Update Course</h3>
+                        <form className="course-form">
+                            <div className="form-group">
+                                <input
+                                    className="course-input"
+                                    placeholder="Course Code (ex, CS 150)"
+                                    value={updatedCode}
+                                    onChange={(e) => setUpdatedCode(e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    className="course-input"
+                                    placeholder="Course Name (ex, Cloud Computing)"
+                                    value={updatedName}
+                                    onChange={(e) => setUpdatedName(e.target.value)}
+                                />
+                            </div>
+                        </form>
                         <div className="modal-actions">
                             <button className="btn ghost" onClick={() => setShowUpdateModal(false)}>Cancel</button>
                             <button className="btn primary" onClick={handleConfirmUpdate}>Update</button>

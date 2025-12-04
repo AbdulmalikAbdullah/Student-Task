@@ -5,6 +5,9 @@ import './TaskDetails.css';
 export default function TaskDetails({ task, members, onClose, onEdit, onDelete }) {
   if (!task) return null;
 
+  const assignedMember = members.find(m => m._id === task.assignedTo);
+  const assignedName = assignedMember ? `${assignedMember.firstName} ${assignedMember.lastName}` : 'Unknown';
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -13,7 +16,7 @@ export default function TaskDetails({ task, members, onClose, onEdit, onDelete }
         <p><strong>Due:</strong> {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—'}</p>
         <p><strong>Priority:</strong> {task.priority || 'Low'}</p>
         <p><strong>Status:</strong> {task.status}</p>
-        {task.assignedTo && <p><strong>Assigned to:</strong> {members.find(m => m._id === task.assignedTo)?.displayName || 'Unknown'}</p>}
+        {task.assignedTo && <p><strong>Assigned to:</strong> {assignedName}</p>}
         <div className="modal-actions">
           <button className="btn ghost" onClick={onClose}>Close</button>
           <button className="btn primary" onClick={() => { onEdit(task); onClose(); }}>Edit</button>
