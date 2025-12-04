@@ -68,7 +68,8 @@ exports.getMyCourses = async (req, res) => {
         const coursesWithTasks = await Promise.all(
             courses.map(async (course) => {
                 const taskCount = await Task.countDocuments({ course: course._id });
-                return { ...course.toObject(), taskCount };
+                const completedCount = await Task.countDocuments({ course: course._id, status: 'Completed' });
+                return { ...course.toObject(), taskCount, completedCount };
             })
         );
         res.json(coursesWithTasks);

@@ -3,11 +3,10 @@ import '../Shared/Modal.css';
 import { useState } from "react";
 
 function CourseCard({
-    src = "https://placehold.co/600x400/EEE/31343C",
     title = "Course Title",
     courseCode = "x",
-    tasks = 0,
-    createdCourse = null,
+    totalTasks = 0,
+    completedTasks = 0,
     onView = () => { },
     onDelete = () => { },
     onUpdate = () => { },
@@ -15,6 +14,8 @@ function CourseCard({
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [updatedName, setUpdatedName] = useState(title);
     const [updatedCode, setUpdatedCode] = useState(courseCode);
+
+    const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
     const handleUpdateClick = () => {
         setUpdatedName(title);
@@ -30,17 +31,30 @@ function CourseCard({
     return (
         <>
             <article className="card">
-                <div className="card-media">
-                    <img className="card-img" src={src} alt={`${title} image`} />
-                </div>
-
                 <div className="card-body">
+                    <div className="code-badge">{courseCode}</div>
                     <h4 className="card-title">{title}</h4>
-                    <p className="card-courseCode">{courseCode}</p>
-                    <p className="card-sub">{tasks} tasks</p>
-                    <p className="card-sub">Course Code: {createdCourse}</p>
+
+                    <div className="progress">
+                        <div className="progress-bar">
+                            <div className="progress-fill" style={{ width: `${progress}%` }} />
+                        </div>
+                        <div className="progress-text">{progress}%</div>
+                    </div>
+
+                    <div className="stats-row">
+                        <div className="stat-box">
+                            <div className="stat-title">Total Tasks</div>
+                            <div className="stat-value">{totalTasks}</div>
+                        </div>
+                        <div className="stat-box">
+                            <div className="stat-title">Completed</div>
+                            <div className="stat-value">{completedTasks}</div>
+                        </div>
+                    </div>
+
                     <div className="card-actions">
-                        <button className="btn primary" onClick={onView}>View</button>
+                        <button className="btn primary" onClick={onView}>View Tasks</button>
                         <button className="btn secondary" onClick={handleUpdateClick}>Update</button>
                         <button className="btn leave" onClick={onDelete}>Delete</button>
                     </div>

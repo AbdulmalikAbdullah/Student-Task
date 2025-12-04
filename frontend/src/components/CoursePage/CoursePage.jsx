@@ -1,6 +1,6 @@
 import "./CoursePage.css";
 import { use, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import api from "../../api/axiosConfig";
 import socket from "../../api/socket";
 import Navbar from "../Navbar/Navbar";
@@ -13,6 +13,9 @@ import MembersList from "../MembersList/MembersList";
 function CoursePage() {
     const params = useParams();
     const courseId = params.courseId || params.id;
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const deepLinkTaskId = searchParams.get('task');
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('tasks');
@@ -31,6 +34,8 @@ function CoursePage() {
     const [editingTask, setEditingTask] = useState(null);
     const [courseName, setCourseName] = useState('');
     const [courseCode, setCourseCode] = useState('');
+    const [shareCode, setShareCode] = useState('');
+    const [showCodeModal, setShowCodeModal] = useState(false);
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("All");
     const [priorityFilter, setPriorityFilter] = useState("All");
@@ -79,6 +84,11 @@ function CoursePage() {
         try {
             const res = await api.get(`/tasks/course/${courseId}`);
             setTasks(res.data || []);
+            // If deep link taskId provided, select that task when tasks load
+            if (deepLinkTaskId) {
+                const found = (res.data || []).find(t => t._id === deepLinkTaskId);
+                if (found) setSelectedTask(found);
+            }
         } catch (err) {
             console.error("fetch tasks error", err);
         } finally {
@@ -96,6 +106,7 @@ function CoursePage() {
                 setCourseName(c.name);
                 setCourseCode(c.courseCode)
             }
+            if (c.code) setShareCode(c.code);
         } catch (err) {
             console.error('fetchCourse error', err);
         }
@@ -183,6 +194,7 @@ function CoursePage() {
                     <button className="back-btn" onClick={() => navigate('/dashboard')}>{backIcon}</button>
                     <div className="course-title">{courseName || 'Course'}</div>
                     <div className="course-code">({courseCode || 'Course'})</div>
+                    <button className="new-task-button code-btn" onClick={() => setShowCodeModal(true)}>Course Code</button>
                     <button className="new-task-button" onClick={() => setShowCreateModal(true)}>Create Task</button>
                 </div>
 
@@ -306,6 +318,22 @@ function CoursePage() {
                     members={members}
                     onSave={(task) => updateTask(task._id, task)}
                 />
+
+                {showCodeModal && (
+                    <div className="modal-overlay" onClick={() => setShowCodeModal(false)}>
+                        <div className="modal" onClick={(e) => e.stopPropagation()}>
+                            <h3>Course Code</h3>
+                            <p className='code-p'>Share this code with others to join the course:</p>
+                            <div className="share-code">
+                                <p className="share-code-text">{shareCode || '—'}</p>
+                                <button className="code-copy" onClick={() => { navigator.clipboard.writeText(shareCode || ''); }}>Copy Code</button>
+                            </div>
+                            <div className="modal-actions">
+                                <button className="btn primary" onClick={() => setShowCodeModal(false)}>Done</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );

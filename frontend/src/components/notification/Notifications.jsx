@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { NotificationContext } from "../../context/NotificationContext";
 import "./notification.css";
 
@@ -6,6 +7,7 @@ function Notifications() {
   const { notifications, unreadCount, markAsRead, dismissNotification } =
     useContext(NotificationContext);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleBellClick = () => {
     setIsOpen(!isOpen);
@@ -112,7 +114,20 @@ function Notifications() {
             ) : (
               <div className="notifications-list">
                 {notifications.map((notification) => (
-                  <div key={notification._id} className="notification-item">
+                  <div
+                    key={notification._id}
+                    className="notification-item"
+                    onClick={() => {
+                      const taskId = notification._id;
+                      const courseId = notification.course?._id || notification.course;
+                      if (courseId && taskId) {
+                        setIsOpen(false);
+                        navigate(`/course/${courseId}?task=${taskId}`);
+                      }
+                    }}
+                    role="button"
+                    tabIndex={0}
+                  >
                     <div className="notification-content">
                       <h4 className="notification-title">
                         {notification.title}

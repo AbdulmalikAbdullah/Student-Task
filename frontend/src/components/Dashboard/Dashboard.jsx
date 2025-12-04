@@ -137,12 +137,27 @@ function Dashboard() {
 
             <main className="dashboard">
                 <Navbar />
-                <Mytasks
-                    totalTasks={1}
-                    pendingTasks={2}
-                    completedTasks={3}
-                    numberCourses={4}
-                />
+                {(() => {
+                    const totals = courses.reduce((acc, c) => {
+                        const total = Number(c.taskCount || 0);
+                        const completed = Number(c.completedCount || 0);
+                        acc.totalTasks += total;
+                        acc.completedTasks += completed;
+                        return acc;
+                    }, { totalTasks: 0, completedTasks: 0 });
+
+                    const pending = Math.max(totals.totalTasks - totals.completedTasks, 0);
+                    const courseCount = courses.length || 0;
+
+                    return (
+                        <Mytasks
+                            totalTasks={totals.totalTasks}
+                            pendingTasks={pending}
+                            completedTasks={totals.completedTasks}
+                            numberCourses={courseCount}
+                        />
+                    );
+                })()}
 
                 <header className="dashboard-header">
                     <h2 className="dashboard-title">My Courses</h2>
@@ -162,12 +177,10 @@ function Dashboard() {
                         {!loading && !error && courses.map((c) => (
                             <CourseCard
                                 key={c._id}
-                                courseId={c._id}
-                                src={c.image || `https://placehold.co/600x400/ddd/sss?text=${encodeURIComponent(c.name)}`}
                                 title={c.name}
                                 courseCode={c.courseCode}
-                                tasks={c.taskCount || 0}
-                                createdCourse={c.code}
+                                totalTasks={c.taskCount || 0}
+                                completedTasks={c.completedCount || 0}
                                 onView={() => handleView(c)}
                                 onDelete={() => handleDelete(c._id)}
                                 onUpdate={(newName, newCode) => handleUpdate(c._id, newName, newCode)}
