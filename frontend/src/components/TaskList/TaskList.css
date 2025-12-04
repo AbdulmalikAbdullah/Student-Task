@@ -11,6 +11,18 @@
     padding: 10px;
     border: 1px solid #b2b2b2;
     border-radius: 6px;
+    cursor: move;
+    transition: all 0.2s ease;
+}
+
+.task:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task.dragging {
+    opacity: 0.5;
+    background-color: #f0f0f0;
+    transform: scale(0.98);
 }
 
 .task-box {

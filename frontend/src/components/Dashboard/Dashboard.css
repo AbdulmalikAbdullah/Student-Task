@@ -80,14 +80,25 @@
     gap: 12px;
     align-items: flex-start;
 }
+.code-p{
+    margin-left: auto;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: black;
 
-.share-code {
+}
+.modal {
+    background: white;
+    color: black;
+    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.6);
     display: flex;
     flex-direction: column;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.05);
+    align-items: stretch;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
 }
-
 .share-code {
     display: flex;
     flex-direction: column;
@@ -98,21 +109,20 @@
     text-align: center;
     align-items: center;
     justify-content: center;
-    margin: 12px 0;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .share-code-text {
     font-size: 18px;
     font-weight: bold;
-    color: #fff;
+    color: #000000;
     margin: 0;
 }
 
 .code-copy {
     margin-top: 12px;
     padding: 10px 20px;
-    background: #4f46e5;
+    background: #007bff;
     color: white;
     border: none;
     border-radius: 6px;

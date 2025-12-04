@@ -1,13 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './TaskList.css';
 
-export default function TaskList({ tasks, loading, onSelect, onToggleComplete }) {
+export default function TaskList({ tasks, loading, onSelect, onToggleComplete, onDragEnd }) {
+  const [draggedId, setDraggedId] = useState(null);
+  
   if (loading) return <div>Loading...</div>;
+
+  const handleDragStart = (e, taskId) => {
+    setDraggedId(taskId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = (e, targetTaskId) => {
+    e.preventDefault();
+    if (draggedId === targetTaskId) {
+      setDraggedId(null);
+      return;
+    }
+    
+    const draggedIndex = tasks.findIndex(t => t._id === draggedId);
+    const targetIndex = tasks.findIndex(t => t._id === targetTaskId);
+    
+    if (draggedIndex === -1 || targetIndex === -1) {
+      setDraggedId(null);
+      return;
+    }
+    
+    const reordered = Array.from(tasks);
+    const [removed] = reordered.splice(draggedIndex, 1);
+    reordered.splice(targetIndex, 0, removed);
+    
+    if (onDragEnd) {
+      onDragEnd(reordered);
+    }
+    setDraggedId(null);
+  };
 
   return (
     <div className="task-list">
       {tasks.map((task) => (
-        <div className="task">
+        <div
+          key={task._id}
+          className={`task${draggedId === task._id ? ' dragging' : ''}`}
+          draggable
+          onDragStart={(e) => handleDragStart(e, task._id)}
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDrop(e, task._id)}
+          onDragEnd={() => setDraggedId(null)}
+        >
           <div className="task-box">
             <label className="custom-checkbox">
               <input
@@ -31,7 +76,7 @@ export default function TaskList({ tasks, loading, onSelect, onToggleComplete })
               </div>
             </div>
           </div>
-          <button className='view-details' key={task._id} onClick={() => onSelect(task)}>View Details</button>
+          <button className='view-details' onClick={(e) => { e.stopPropagation(); onSelect(task); }}>View Details</button>
         </div>
       ))}
     </div>

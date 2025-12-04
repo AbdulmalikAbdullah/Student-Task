@@ -229,7 +229,7 @@ function Dashboard() {
                     <div className="modal-overlay" onClick={() => setCreatedCourse(null)}>
                         <div className="modal" onClick={(e) => e.stopPropagation()}>
                             <h3>Course Created!</h3>
-                            <p>Share this code with others to join the course:</p>
+                            <p className='code-p'>Share this code with others to join the course:</p>
                             <div className="share-code">
                                 <p className="share-code-text" >{createdCourse.code}</p>
                                 <button className="code-copy" onClick={() => { navigator.clipboard.writeText(createdCourse.code); }}>Copy Code</button>

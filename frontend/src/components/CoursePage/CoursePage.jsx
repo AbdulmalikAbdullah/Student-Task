@@ -157,64 +157,6 @@ function CoursePage() {
                     !t.description?.toLowerCase().includes(txt)
                 ) return false;
             }
-    const handleDragStart = (e, task) => {
-        setDraggedTask(task);
-        e.dataTransfer.effectAllowed = 'move';
-    };
-
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-    };
-
-    const handleDrop = (e, targetTask) => {
-        e.preventDefault();
-        
-        if (!draggedTask || draggedTask._id === targetTask._id) {
-            setDraggedTask(null);
-            return;
-        }
-
-        const draggedIndex = tasks.findIndex(t => t._id === draggedTask._id);
-        const targetIndex = tasks.findIndex(t => t._id === targetTask._id);
-
-        const newTasks = [...tasks];
-        newTasks.splice(draggedIndex, 1);
-        newTasks.splice(targetIndex, 0, draggedTask);
-
-        setTasks(newTasks);
-        setDraggedTask(null);
-
-        // Send reorder request to backend
-        const taskIds = newTasks.map(t => t._id);
-        api.post('/tasks/reorder', { taskIds, courseId })
-            .catch(err => {
-                console.error('reorder tasks error', err);
-                // Revert to original order on error
-                fetchTasks();
-            });
-    };
-
-    const handleDragEnd = () => {
-        setDraggedTask(null);
-    };
-
-    const handleDeleteCourse = async () => {
-        if (!window.confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
-            return;
-        }
-        setDeletingCourse(true);
-        try {
-            await api.delete(`/courses/${courseId}`);
-            alert('Course deleted successfully');
-            navigate('/dashboard');
-        } catch (err) {
-            console.error("deleteCourse error", err);
-            alert(err.response?.data?.msg || 'Failed to delete course');
-        } finally {
-            setDeletingCourse(false);
-        }
-    };
 
             if (statusFilter !== "All" && t.status !== statusFilter) return false;
 
@@ -243,73 +185,6 @@ function CoursePage() {
                     <div className="course-code">({courseCode || 'Course'})</div>
                     <button className="new-task-button" onClick={() => setShowCreateModal(true)}>Create Task</button>
                 </div>
-                {activeTab === 'tasks' && (
-                    <div className="task-form">
-                        <input placeholder="Title" value={newTaskData.title} onChange={(e) => setNewTaskData({ ...newTaskData, title: e.target.value })} />
-                        <textarea placeholder="Description" value={newTaskData.description} onChange={(e) => setNewTaskData({ ...newTaskData, description: e.target.value })} rows={2} />
-                        <input placeholder="Due" type="date" value={newTaskData.dueDate} onChange={(e) => setNewTaskData({ ...newTaskData, dueDate: e.target.value })} />
-                        <select value={newTaskData.priority} onChange={(e) => setNewTaskData({ ...newTaskData, priority: e.target.value })}>
-                            <option>Low</option>
-                            <option>Medium</option>
-                            <option>High</option>
-                        </select>
-                        <select value={newTaskData.assignedTo} onChange={(e) => setNewTaskData({ ...newTaskData, assignedTo: e.target.value })}>
-                            <option value="">Assign to member...</option>
-                            {members.map((m) => (
-                                <option key={m._id} value={m._id}>{m.firstName} {m.lastName}</option>
-                            ))}
-                        </select>
-                    </div>
-                )}
-                {activeTab === 'tasks' ? (
-                    <div className="task-list">
-                        {loading ? (
-                            <div>Loading...</div>
-                        ) : (
-                            tasks.map((task) => (
-                                <div 
-                                    className={`task ${draggedTask && draggedTask._id === task._id ? 'dragging' : ''}`}
-                                    key={task._id} 
-                                    onClick={() => setSelectedTask(task)}
-                                    draggable
-                                    onDragStart={(e) => handleDragStart(e, task)}
-                                    onDragOver={handleDragOver}
-                                    onDrop={(e) => handleDrop(e, task)}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <div className="task-box">
-                                        <input type="checkbox" checked={task.status === 'Completed'} onChange={() => toggleComplete(task)} onClick={(e) => e.stopPropagation()} />
-                                        <div className="task-info">
-                                            <div className="task-title">{task.title}</div>
-                                            {task.description && <div className="task-desc">{task.description.substring(0, 50)}...</div>}
-                                            <div style={{ display: 'flex', gap: 8, marginTop: 6, alignItems: 'center' }}>
-                                                <div className={`priority-badge priority-${(task.priority || 'Low').toLowerCase()}`}>{task.priority || 'Low'}</div>
-                                                <div className="task-due">Due {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—'}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style={{ display: 'flex', gap: 8 }}>
-                                        <button onClick={(e) => { e.stopPropagation(); setEditingTask(task); }}>Edit</button>
-                                        <button onClick={(e) => { e.stopPropagation(); deleteTask(task._id); }}>Delete</button>
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                ) : (
-                    <div className="members-panel">
-                        {members.length === 0 ? (
-                            <div>No members</div>
-                        ) : (
-                            members.map((m) => (
-                                <div key={m._id} className="member-row" onClick={() => alert(`${m.firstName} ${m.lastName}` || m.email)}>
-                                    {m.firstName} {m.lastName}
-                                </div>
-                            ))
-                        )}
-                    </div>
-                )}
-            </div>
 
                 <div className="course-body">
                     <div className="tab-header">
@@ -413,8 +288,9 @@ function CoursePage() {
                             loading={loading}
                             onSelect={(t) => setSelectedTask(t)}
                             onToggleComplete={toggleComplete}
-                            onEdit={(t) => setEditingTask(t)}
-                            onDelete={deleteTask}
+                            onDragEnd={(reorderedTasks) => {
+                                setTasks(reorderedTasks);
+                            }}
                         />
                     ) : (
                         <MembersList members={members} onMemberClick={(m) => alert(m.displayName || m.email)} />
@@ -429,6 +305,7 @@ function CoursePage() {
                     members={members}
                     onSave={(task) => updateTask(task._id, task)}
                 />
+            </div>
         </>
     );
 }
