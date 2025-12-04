@@ -1,3 +1,4 @@
+import "../Shared/Modal.css";
 import "./ProfileModal.css";
 import { useState, useContext } from "react";
 import api from "../../api/axiosConfig";
@@ -77,9 +78,9 @@ function ProfileModal({ user, onClose }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal profile-modal" onClick={(e) => e.stopPropagation()}>
+      <div className="modal profile-modal modal-light" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h3>👤 Profile</h3>
+          <h3><img className='profile-Icon' src="../../../assets/profileIcon.svg" alt="Date Icon" /> Profile</h3>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
@@ -98,7 +99,7 @@ function ProfileModal({ user, onClose }) {
               <p>{user?.email}</p>
             </div>
             <button className="btn primary edit-btn" onClick={() => setIsEditing(true)}>
-              ✏️ Edit Profile
+               Edit Profile
             </button>
           </div>
         ) : (

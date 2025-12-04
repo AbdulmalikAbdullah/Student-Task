@@ -1,12 +1,14 @@
 .dashboard {
     display: block;
-    padding: 18px;
     padding-top: 80px;
     z-index: 1;
+    height: 100vh;
+    width: 100%;
+    overflow-y: auto;
 }
 
 .dashboard-header {
-    grid-column: 1 / -1;
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,8 +16,8 @@
 }
 
 .dashboard-title {
-    margin: 0;
-    color: #fff;
+    justify-content: flex-start;
+    color: #000000;
 }
 
 .dashboard-actions {
@@ -41,9 +43,41 @@
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
-.courses-grid {
+.add-btn:hover {
+    background-color: #0b7f58;
+    transition: all 0.5s;
+}
+
+.join-btn {
+    padding: 8px 12px;
+    margin-right: 15px;
+    background: #28a745;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.join-btn:hover {
+    background-color: #0a6849;
+    transition: all 0.5s;
+}
+
+
+.Cards-container {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+
+    align-items: center;
+}
+
+.courses-grid {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 12px;
     align-items: flex-start;
 }
@@ -135,6 +169,11 @@
     flex-direction: column;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.05);
+.share-code {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    background-color: #ffffff;
     padding: 12px;
     border-radius: 6px;
     text-align: center;
@@ -167,4 +206,9 @@
     background: #6366f1;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+.code-copy:hover {
+    background-color: #5a5a5a;
+    transition: all 0.5s;
 }

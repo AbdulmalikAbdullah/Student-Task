@@ -4,9 +4,15 @@ const crypto = require("crypto");
 
 exports.createCourse = async (req, res) => {
     try {
-        const { name } = req.body;
+        const { name, courseCode } = req.body;
+        console.log(req.body);
         const code = crypto.randomBytes(3).toString('hex');
-        const course = new Course({ name, code, members: [req.user.id] });
+        const course = new Course({
+            name,
+            courseCode,
+            code,
+            members: [req.user.id]
+        });
         await course.save();
         res.json(course);
     } catch (err) {
@@ -14,6 +20,7 @@ exports.createCourse = async (req, res) => {
         res.status(500).send("createCourse error");
     }
 };
+
 
 exports.joinCourse = async (req, res) => {
     try {
@@ -29,6 +36,29 @@ exports.joinCourse = async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).send('joinCourse error');
+    }
+};
+
+exports.leaveCourse = async (req, res) => {
+    try {
+        const { code } = req.body;
+        const course = await Course.findOne({ code });
+        if (!course) return res.status(404).json({ msg: 'Course not found' });
+
+        const userId = req.user.id;
+        const memberIndex = course.members.findIndex(memberId => memberId.toString() === userId.toString());
+
+        if (memberIndex > -1) {
+            course.members.splice(memberIndex, 1);
+            await course.save();
+            return res.json({ msg: "Course left successfully", course });
+        } else {
+            return res.status(400).json({ msg: 'You are not a member of this course' });
+        }
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('leaveCourse error');
     }
 };
 

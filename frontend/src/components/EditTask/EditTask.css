@@ -1,0 +1,46 @@
+.edit-task-modal input,
+.edit-task-modal textarea,
+.edit-task-modal select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+}
+
+.edit-task-modal .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+input.title-input,
+input.date-input {
+    width: 95%;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+
+textarea.des-textarea {
+    max-width: 95%;
+    min-width: 100px;
+    min-height: 150px;
+    max-height: 450px;
+}
+
+.textarea.des-textarea:hover,
+input.date-input:hover,
+input.title-input:hover
+select.select-input:hover {
+    border-color: #007bff;
+}
+
+.textarea.des-textarea:focus,
+input.date-input:focus,
+input.title-input:focus,
+select.select-input:focus {
+    border-color: #0063cd;
+    box-shadow: 0 0 10px #0063cd;
+}

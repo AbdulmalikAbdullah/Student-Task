@@ -5,6 +5,7 @@ function CourseCard({
     courseId,
     src = "https://placehold.co/600x400/EEE/31343C",
     title = "Course Title",
+    courseCode = "x",
     tasks = 0,
     createdCourse = null,
     onView = () => { },
