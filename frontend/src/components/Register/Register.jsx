@@ -25,7 +25,7 @@ function Register() {
             setShowNotifsuccess(true);
             setTimeout(() => {
                 setShowNotifsuccess(false);
-                window.location.href = "/dashboard";
+                window.location.href = "/";
             }, 1500);
         } catch (err) {
             setShowNotifErr(true);

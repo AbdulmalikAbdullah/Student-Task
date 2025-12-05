@@ -12,7 +12,7 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [showNotifErr, setShowNotifErr] = useState(false);
     const [showNotifsuccess, setShowNotifsuccess] = useState(false);
-    const icon = "../../../assets/navIcon.svg"
+    const icon = "../../../assets/navIcon.svg";
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -82,7 +82,7 @@ function Login() {
                                 </span>
                             </div>
                             <p>
-                                <Link to="/#">Forgot Password</Link>
+                                <Link to="/forgot-password">Forgot Password</Link>
                             </p>
                             <button className="login-button" type="submit">Login</button>
 
