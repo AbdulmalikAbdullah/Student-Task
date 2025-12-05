@@ -1,18 +1,64 @@
-.member-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    padding: 8px 10px;
-    border: 1px solid #4d4d4d;
-    border-radius: 20px;
-    color: #000000;
-    cursor: pointer;
-    font-size: 20px;
+.members-panel {
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    margin-left: 10%;
+    padding: 20px;
 }
 
-.member-row:hover {
-    background: #646464;
+.member-col {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 120px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    color: #000000;
+    font-size: 18px;
+    justify-content: space-between;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.member-col:hover {
+    box-shadow: 0 0 12px #2490b771;
+}
+
+.name {
+    background-color: #e9f6fb;
+    border-radius: 5px;
+    padding: 0 10px 0 10px;
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.email {
+    background-color: #e9f6fb;
+    border-radius: 5px;
+    padding: 0 10px 0 10px;
+    width: 90%;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn.primary {
+    text-decoration: none;
+}
+
+
+.email-icon {
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+    margin-bottom: -6px;
 }
