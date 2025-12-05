@@ -50,6 +50,9 @@ function CoursePage() {
 
         socket.connect();
         socket.emit("joinCourse", courseId);
+        socket.on("onlineUsersUpdate", (count) => {
+            setOnlineUser(count);
+        });
 
         socket.on("taskCreated", (task) => {
             setTasks((prev) => [task, ...prev]);
@@ -72,6 +75,7 @@ function CoursePage() {
 
         return () => {
             socket.emit("leaveCourse", courseId);
+            socket.off("onlineUsersUpdate");
             socket.off("taskCreated");
             socket.off("taskUpdated");
             socket.off("taskDeleted");
@@ -205,11 +209,13 @@ function CoursePage() {
 
                 <div className="course-body">
                     <div className="tab-header">
-                        <div>
-                            <span className={`tab ${activeTab === 'tasks' ? 'active' : ''}`} onClick={() => { setActiveTab('tasks'); setShowFilter(true); }}>Tasks</span>
-                            <span className={`tab ${activeTab === 'members' ? 'active' : ''}`} onClick={() => { setActiveTab('members'); setShowFilter(false) }}>Members</span>
-                            <span className="online-user">Online users: {onlineUser}</span>
+
+                        <span className={`tab ${activeTab === 'tasks' ? 'active' : ''}`} onClick={() => { setActiveTab('tasks'); setShowFilter(true); }}>Tasks</span>
+                        <span className={`tab ${activeTab === 'members' ? 'active' : ''}`} onClick={() => { setActiveTab('members'); setShowFilter(false) }}>Members</span>
+                        <div className="online-box">
+                            <div className="online-indicator"></div><span className="online-user">Online users: {onlineUser}</span>
                         </div>
+
                     </div>
 
                     {showFilter && (<div className="filters-container">

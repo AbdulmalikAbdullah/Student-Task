@@ -26,35 +26,53 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/tasks', taskRoutes);
 
 
+const courseOnlineUsers = {};           
+const socketCourses = {};              
+
 io.on('connection', (socket) => {
-    console.log('New WebSocket connection:', socket.id);
+  console.log('New socket', socket.id);
 
-    // Join a personal user room for direct notifications
-    socket.on('joinUser', (userId) => {
-        if (userId) {
-            socket.join(userId.toString());
-            console.log(`Socket ${socket.id} joined user room ${userId}`);
-        }
-    });
+  socketCourses[socket.id] = socketCourses[socket.id] || new Set();
 
-    socket.on('joinCourse', (courseId) => {
-        if (courseId) {
-            socket.join(courseId);
-            console.log(`Socket ${socket.id} joined course ${courseId}`);
-        }
-    });
+  socket.on('joinCourse', (courseId) => {
+    if (!courseId) return;
 
-    socket.on('leaveCourse', (courseId) => {
-        if (courseId) {
-            socket.leave(courseId);
-            console.log(`Socket ${socket.id} left course ${courseId}`);
-        }
-    });
+    if (socketCourses[socket.id].has(courseId)) {
+      return;
+    }
 
-    socket.on('disconnect', () => {
-        console.log('Socket disconnected', socket.id);
-    });
+    socket.join(courseId);
+    socketCourses[socket.id].add(courseId);
+
+    courseOnlineUsers[courseId] = (courseOnlineUsers[courseId] || 0) + 1;
+    io.to(courseId).emit('onlineUsersUpdate', courseOnlineUsers[courseId]);
+  });
+
+  socket.on('leaveCourse', (courseId) => {
+    if (!courseId) return;
+
+    if (socketCourses[socket.id] && socketCourses[socket.id].has(courseId)) {
+      socket.leave(courseId);
+      socketCourses[socket.id].delete(courseId);
+
+      courseOnlineUsers[courseId] = Math.max((courseOnlineUsers[courseId] || 1) - 1, 0);
+
+      io.to(courseId).emit('onlineUsersUpdate', courseOnlineUsers[courseId]);
+    }
+  });
+
+  socket.on('disconnect', () => {
+    const joined = socketCourses[socket.id];
+    if (joined && joined.size) {
+      for (const courseId of joined) {
+        courseOnlineUsers[courseId] = Math.max((courseOnlineUsers[courseId] || 1) - 1, 0);
+        io.to(courseId).emit('onlineUsersUpdate', courseOnlineUsers[courseId]);
+      }
+    }
+    delete socketCourses[socket.id];
+  });
 });
+
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -36,7 +36,7 @@
     flex-direction: row;
     justify-content: start;
     font-weight: 600;
-    color: #0275d8;
+    color: #2490b7;
 }
 
 .task-desc {
@@ -82,11 +82,13 @@
     position: relative;
     cursor: pointer;
     transition: all 0.5s;
+
 }
 
 .custom-checkbox input:checked+.checkmark {
-    background-color: #0275d8;
-    border-color: #0275d8;
+    background-color: #2490b7;
+    border-color: #2490b7;
+    box-shadow: 0 0 12px #2490b7b4;
 }
 
 .custom-checkbox .checkmark::after {
@@ -121,7 +123,7 @@
 .view-details {
     padding: 6px 12px;
     margin-left: auto;
-    background-color: #007bff;
+    background-color: #2490b7;
     border: none;
     border-radius: 6px;
     color: white;
@@ -129,12 +131,12 @@
 }
 
 .view-details:hover {
-    box-shadow: 0 0 15px #007bff;
+    box-shadow: 0 0 12px #2490b771;
     cursor: pointer;
     transition: all 0.5s;
 }
 
-.assign-to{
+.assign-to {
     color: black;
     border: 1px solid rgb(162, 162, 162);
     padding: 1px 2px 1px 2px;

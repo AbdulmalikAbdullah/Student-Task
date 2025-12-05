@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Shared/Modal.css';
 import './CreateNewTask.css';
+import '../EditTask/EditTask.css';
 
 export default function CreateNewTask({ show, onClose, members, newTaskData, setNewTaskData, onCreate }) {
   if (!show) return null;

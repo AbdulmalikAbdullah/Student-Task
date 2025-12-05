@@ -1,6 +1,7 @@
 .course-container {
   width: 70%;
   height: 75%;
+  min-width: 850px;
   background-color: #ffffff;
   border-radius: 12px;
   font-family: Arial, sans-serif;
@@ -42,7 +43,7 @@
 .new-task-button {
   padding: 6px 12px;
   margin-left: 10px;
-  background-color: #007bff;
+  background-color: #2490b7;
   border: none;
   border-radius: 6px;
   color: white;
@@ -50,12 +51,12 @@
 }
 
 .new-task-button:hover {
-  box-shadow: 0 0 15px #007bff;
+  box-shadow: 0 0 12px #2490b771;
+  transform: translateY(-2px);
   cursor: pointer;
   transition: all 0.3s;
 }
 
-/* Push code button to the right edge; create sits next with small gap */
 .code-btn {
   margin-left: auto;
 }
@@ -67,7 +68,7 @@
 .tab-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 15px;
 }
 
@@ -78,16 +79,48 @@
   color: #a3a3a3;
 }
 
-.online-user{
+.online-box {
+  display: flex;
+  flex-direction: row;
+}
+
+.online-indicator {
+  width: 10px;
+  height: 10px;
+  margin: 9px -25px 10px 0;
+  border-radius: 50%;
+  background-color: #00ce00;
+  border: 1px solid #00a700;
+  animation: pulseAnimation 1.5s infinite ease-in-out;
+  box-shadow: 0 0 10px #00fb00;
+}
+
+@keyframes pulseAnimation {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.online-user {
+  width: 150px;
   color: #000000;
   font-size: 16px;
   padding: 5px;
-  border-left: 3px solid #007bff;
+  border-left: 3px solid #2490b7;
 }
 
 .tab.active {
-  color: #007bff;
-  border-bottom: 2px solid #007bff;
+  color: #2490b7;
+
+  border-bottom: 2px solid #2490b7;
 }
 
 .btn {
@@ -123,12 +156,12 @@
 }
 
 .search-input:hover {
-  border-color: #007bff;
+  border-color: #2490b7;
 }
 
 .search-input:focus {
-  border-color: #0063cd;
-  box-shadow: 0 0 10px #0063cd;
+  border-color: #2490b7;
+  box-shadow: 0 0 12px #2490b771;
 }
 
 .bottom-row {
@@ -148,12 +181,12 @@
 }
 
 .filter-select:hover {
-  border-color: #007bff;
+  border-color: #2490b7;
 }
 
 .filter-select:focus {
-  border-color: #0063cd;
-  box-shadow: 0 0 10px #0063cd;
+  border-color: #2490b7;
+  box-shadow: 0 0 12px #2490b771;
 }
 
 .filter-select option {

@@ -32,15 +32,20 @@ textarea.des-textarea {
 
 .textarea.des-textarea:hover,
 input.date-input:hover,
-input.title-input:hover
-select.select-input:hover {
-    border-color: #007bff;
+input.title-input:hover select.select-input:hover {
+    border-color: #2490b7;
 }
 
 .textarea.des-textarea:focus,
 input.date-input:focus,
 input.title-input:focus,
 select.select-input:focus {
-    border-color: #0063cd;
-    box-shadow: 0 0 10px #0063cd;
+    border-color: #2490b7;
+    box-shadow: 0 0 12px #2490b771;
+}
+form>textarea:focus {
+    outline: none;
+    background: #2490b743;
+    border-color: #2490b7;
+    box-shadow: 0 0 12px #2490b771;
 }

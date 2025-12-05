@@ -34,10 +34,10 @@ const ResetPassword = () => {
             setTimeout(() => {
                 setShowNotifsuccess(false);
                 window.location.href = "/";
-            }, 3500);
+            }, 3900);
         } catch (err) {
             setShowNotifErr(true);
-            setTimeout(() => setShowNotifErr(false), 3500);
+            setTimeout(() => setShowNotifErr(false), 3900);
         }
     };
 

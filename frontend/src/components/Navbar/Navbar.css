@@ -1,13 +1,13 @@
 .navbar {
   background-color: #ffffff;
-  border-bottom: 2px solid #007bff;
+  border-bottom: 2px solid #2490b7;
   padding: 12px 18px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px #2490b771;
   width: 100%;
   box-sizing: border-box;
 }
@@ -70,9 +70,9 @@
 }
 
 .profile-btn:hover {
-  background-color: #007bff;
+  background-color: #2490b7;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(35, 35, 35, 0.4);
+  box-shadow: 0 4px 12px #2490b771;
 }
 
 .logout-btn {
@@ -80,9 +80,9 @@
 }
 
 .logout-btn:hover {
-  background-color: #007bff;
+  background-color: #2490b7;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(35, 35, 35, 0.4);
+  box-shadow: 0 4px 12px #2490b771;
 }
 
 
@@ -90,7 +90,7 @@
 .modal-light {
   background: linear-gradient(180deg, #2b2b2b, #1f1f1f);
   color: #fff;
-  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.6);
+  box-shadow: 0 4px 12px #2490b771;
 }
 
 .btn {
@@ -104,7 +104,7 @@
 
 .icon {
   padding: 5px;
-  background-color: #007bff;
+  background-color: #2490b7;
   border-radius: 6px;
 }
 

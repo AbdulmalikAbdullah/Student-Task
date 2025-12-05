@@ -14,32 +14,6 @@ const VerifyEmail = () => {
   const [showNotifErr, setShowNotifErr] = useState(false);
   const [showNotifsuccess, setShowNotifsuccess] = useState(false);
   const icon = "../../../assets/navIcon.svg";
-
-  // useEffect(() => {
-  //   const token = query.get("token");
-  //   const email = query.get("email");
-
-  //   if (!token || !email) {
-  //     return; // stop the effect
-  //   }
-
-  //   axios.get(`http://localhost:5000/api/auth/verify-email`, {
-  //     params: { token, email }
-  //   })
-  //     .then(res => {
-  //       setShowNotifsuccess(true)
-  //       setTimeout(() => {
-  //         setShowNotifsuccess(false);
-  //       }, 3500);
-  //       setTimeout(() => navigate("/"), 3500);
-  //     })
-  //     .catch(err => {
-  //       setShowNotifErr(true);
-  //       setTimeout(() => setShowNotifErr(false), 3500);
-  //       setTimeout(() => navigate("/"), 3500);
-  //     });
-  // }, [query, navigate]);
-
   
   useEffect(() => {
     const status = query.get("status");
@@ -49,14 +23,14 @@ const VerifyEmail = () => {
       setShowNotifsuccess(true)
       setTimeout(() => {
         setShowNotifsuccess(false);
-      }, 3500);
-      setTimeout(() => navigate("/"), 3500);
+      }, 3900);
+      setTimeout(() => navigate("/"), 3900);
 
     } else if (status === "error") {
 
       setShowNotifErr(true);
-      setTimeout(() => setShowNotifErr(false), 3500);
-      setTimeout(() => navigate("/"), 3500);
+      setTimeout(() => setShowNotifErr(false), 3900);
+      setTimeout(() => navigate("/"), 3900);
     }
   }, [query, navigate]);
 

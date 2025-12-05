@@ -24,16 +24,16 @@
   margin: 15px 0 10px 0;
   padding: 10px;
   border-radius: 10px;
-  background-color: #007bff;
+  background-color: #2490b7;
   border: 1px solid #b2b2b2;
   color: rgb(255, 255, 255);
 }
 
 .register-button:hover {
-  background-color: #007bff76;
-  border: 1px solid #007bff;
+  background-color: #2490b76b;
+  border: 1px solid #2490b7;
   outline: none;
-  box-shadow: 0 0 10px #007bff80;
+  box-shadow: 0 0 12px #2490b771;
   transition: 0.3s ease;
   cursor: pointer;
 }
@@ -50,9 +50,9 @@
 
 .input-fname:focus,
 .input-lname:focus {
-  background-color: #007bff76;
-  border: 1px solid #007bff;
+  background-color: #2490b76b;
+  border: 1px solid #2490b7;
   outline: none;
-  box-shadow: 0 0 10px #007bff80;
+  box-shadow: 0 0 12px #2490b771;
   transition: 0.3s ease;
 }

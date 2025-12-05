@@ -8,7 +8,7 @@
 .background-container {
   width: 45%;
   height: 98%;
-  background-image: url("../../../assets/background.png");
+  background-image: url("../../../assets/background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   margin: 10px;
@@ -103,7 +103,7 @@
 }
 
 .login-button {
-  background-color: #007bff;
+  background-color: #2490b7;
   color: white;
 }
 
@@ -118,20 +118,19 @@
 
 .input-email:focus,
 .input-pass:focus {
-  background-color: #007bff76;
-  border: 1px solid #007bff;
+  background-color: #2490b76b;
+  border: 1px solid #2490b7;
   outline: none;
-  box-shadow: 0 0 10px #007bff80;
+  box-shadow: 0 0 12px #2490b771;
   transition: 0.3s ease;
 }
 
 .login-button:hover {
-  background-color: #007bff76;
-  border: 1px solid #007bff;
+  background-color: #2490b76b;
+  border: 1px solid #2490b7;
   outline: none;
-  box-shadow: 0 0 10px #007bff80;
+  box-shadow: 0 0 12px #2490b771;
   transition: 0.3s ease;
-  cursor: pointer;
 }
 
 .password-wrapper {

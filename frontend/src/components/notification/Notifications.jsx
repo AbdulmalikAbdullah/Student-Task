@@ -8,6 +8,7 @@ function Notifications() {
     useContext(NotificationContext);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const icon = "";
 
   const handleBellClick = () => {
     setIsOpen(!isOpen);
@@ -137,7 +138,7 @@ function Notifications() {
                       </p>
                       <div className="notification-meta">
                         <span className="deadline">
-                          📅 {formatDate(notification.dueDate)}
+                          <img className='date-Icon' src="../../../assets/dueIcon.svg" alt="Date Icon" /> {formatDate(notification.dueDate)}
                         </span>
                         <span
                           className={`priority priority-${notification.priority?.toLowerCase()}`}

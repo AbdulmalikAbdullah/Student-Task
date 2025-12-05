@@ -59,12 +59,12 @@ function Dashboard() {
         try {
             await api.delete(`/courses/${courseId}`);
             setShowNotifsuccess_DeleteCourse(true);
-            setTimeout(() => { setShowNotifsuccess_DeleteCourse(false); }, 3500);
+            setTimeout(() => { setShowNotifsuccess_DeleteCourse(false); }, 3900);
             await fetchCourses();
         } catch (err) {
             console.error("deleteCourse error", err);
             setShowNotifErr_DeleteCourse(true);
-            setTimeout(() => { setShowNotifErr_DeleteCourse(false); }, 3500);
+            setTimeout(() => { setShowNotifErr_DeleteCourse(false); }, 3900);
         }
     };
 
@@ -79,11 +79,11 @@ function Dashboard() {
             });
             await fetchCourses();
             setShowNotifsuccess_UpdateCourse(true);
-            setTimeout(() => { setShowNotifsuccess_UpdateCourse(false); }, 3500);
+            setTimeout(() => { setShowNotifsuccess_UpdateCourse(false); }, 3900);
         } catch (err) {
             console.error("updateCourse error", err);
             setShowNotifErr_UpdateCourse(true);
-            setTimeout(() => { setShowNotifErr_UpdateCourse(false); }, 3500);
+            setTimeout(() => { setShowNotifErr_UpdateCourse(false); }, 3900);
 
         }
     }
@@ -134,12 +134,12 @@ function Dashboard() {
             setShowJoin(false);
             await fetchCourses();
             setShowNotifsuccess_JoinCourse(true);
-            setTimeout(() => { setShowNotifsuccess_JoinCourse(false); }, 3500);
+            setTimeout(() => { setShowNotifsuccess_JoinCourse(false); }, 3900);
         } catch (err) {
             console.error('join course error', err);
             alert(err.response?.data?.msg || 'Failed to join course');
             setShowNotifErr_JoinCourse(true);
-            setTimeout(() => { setShowNotifErr_JoinCourse(false); }, 3500);
+            setTimeout(() => { setShowNotifErr_JoinCourse(false); }, 3900);
         } finally {
             setJoining(false);
         }

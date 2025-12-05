@@ -22,11 +22,11 @@ function Login() {
             setTimeout(() => {
                 setShowNotifsuccess(false);
                 window.location.href = "/dashboard";
-            }, 3500);
+            }, 3900);
 
         } catch (err) {
             setShowNotifErr(true);
-            setTimeout(() => setShowNotifErr(false), 3500);
+            setTimeout(() => setShowNotifErr(false), 3900);
             console.error('login error', err);
         }
     };

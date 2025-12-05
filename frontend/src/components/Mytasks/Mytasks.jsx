@@ -11,20 +11,20 @@ function Mytasks({ totalTasks, pendingTasks, completedTasks, numberCourses }) {
             <div className="myTasks-boxes">
                 <div className="total-Tasks">
                     <span className="sub-tilte"><strong>Total Tasks</strong></span><br />
-                    <span className="sub-count"><strong>{totalTasks}</strong></span>
+                    <span className="sub-count" style={{color:"#black"}}><strong >{totalTasks}</strong></span>
                 </div>
 
                 <div className="pending-Tasks">
                     <span className="sub-tilte"><strong>Pendings</strong></span><br />
-                    <span className="sub-count"><strong>{pendingTasks}</strong></span>
+                    <span className="sub-count" style={{color:"#d97706"}}><strong >{pendingTasks}</strong></span>
                 </div>
                 <div className="completed-Tasks">
                     <span className="sub-tilte"><strong>Completed</strong></span><br />
-                    <span className="sub-count"><strong>{completedTasks}</strong></span>
+                    <span className="sub-count" style={{color:"#16a34a"}}><strong >{completedTasks}</strong></span>
                 </div>
                 <div className="number-Courses">
                     <span className="sub-tilte"><strong>Courses</strong></span><br />
-                    <span className="sub-count"><strong>{numberCourses}</strong></span>
+                    <span className="sub-count" style={{color:"#black"}}><strong >{numberCourses}</strong></span>
                 </div>
             </div>
         </div>

@@ -49,7 +49,7 @@ function CourseCard({
                         </div>
                         <div className="stat-box">
                             <div className="stat-title">Completed</div>
-                            <div className="stat-value">{completedTasks}</div>
+                            <div className="stat-value" style={{color: "#16a34a"}}>{completedTasks}</div>
                         </div>
                     </div>
 
