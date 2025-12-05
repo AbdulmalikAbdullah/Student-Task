@@ -3,16 +3,34 @@ const Course = require("../models/Course.js");
 
 exports.createTask = async (req, res) => {
     try {
-        const { title, description, dueDate, priority, courseId, course } = req.body;
+        const { title, description, dueDate, priority, courseId, course, assignedTo, status } = req.body;
         const courseField = courseId || course;
         if (!courseField) {
             return res.status(400).json({ msg: 'course is required' });
         }
-        const task = new Task({ title, description, dueDate, priority, course: courseField });
+        const task = new Task({
+            title,
+            description,
+            dueDate,
+            priority,
+            status: status || 'Pending',
+            course: courseField,
+            assignedTo: assignedTo || undefined,
+        });
         await task.save();
 
         const io = req.app.locals.io;
-        io.to(courseId).emit("taskCreated", task);
+        io.to(courseField.toString()).emit("taskCreated", task);
+
+        // If a user was assigned at creation time, notify them in their user room
+        if (assignedTo && io) {
+            try {
+                const populated = await Task.findById(task._id).populate('course', 'name');
+                io.to(assignedTo.toString()).emit('taskAssigned', populated || task);
+            } catch (e) {
+                // non-fatal if populate fails
+            }
+        }
 
         res.json(task);
     } catch (err) {

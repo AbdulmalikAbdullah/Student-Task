@@ -29,6 +29,14 @@ app.use('/api/tasks', taskRoutes);
 io.on('connection', (socket) => {
     console.log('New WebSocket connection:', socket.id);
 
+    // Join a personal user room for direct notifications
+    socket.on('joinUser', (userId) => {
+        if (userId) {
+            socket.join(userId.toString());
+            console.log(`Socket ${socket.id} joined user room ${userId}`);
+        }
+    });
+
     socket.on('joinCourse', (courseId) => {
         if (courseId) {
             socket.join(courseId);
