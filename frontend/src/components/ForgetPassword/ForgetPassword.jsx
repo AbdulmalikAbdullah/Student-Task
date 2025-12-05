@@ -39,8 +39,9 @@ const ForgotPassword = () => {
           <h2 className="welcomeBack-h2">Foregt Password</h2>
           <p className="welcomeBack-p">Enter your email, forget password like will be send</p>
         </div>
-        <div className="forget-box">
-          <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
+          <div className="forget-box">
+
             <input
               className="input-email"
               type="email"
@@ -50,8 +51,9 @@ const ForgotPassword = () => {
               required
             />
             <button className="register-button" type="submit">Send Reset Link</button>
-          </form>
-        </div>
+
+          </div>
+        </form>
         <div className="message">
           <p>
             I have remember my password!{" "}
