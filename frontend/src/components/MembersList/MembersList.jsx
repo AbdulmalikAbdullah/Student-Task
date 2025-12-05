@@ -2,7 +2,7 @@ import React from 'react';
 import './MembersList.css';
 import '../Shared/Modal.css';
 
-export default function MembersList({ members }) {
+export default function MembersList({ members, onMemberClick }) {
   const emailIcon = "../../../assets/emailIcon.svg";
   return (
     <div className="members-panel">

@@ -1,6 +1,7 @@
 import { StrictMode, useContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import '../dark.css'
 import App from './App.jsx'
 import { AuthProvider, AuthContext } from "../context/AuthContext.jsx";
 import { NotificationProvider } from "../context/NotificationContext.jsx";

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import api from "../../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import Notification from "../notification/notification";
+// Theme icons now handled in Navbar
 
 function Dashboard() {
     const [courses, setCourses] = useState([]);
@@ -28,6 +29,7 @@ function Dashboard() {
     const [showNotifErr_JoinCourse, setShowNotifErr_JoinCourse] = useState(false);
     const [showNotifsuccess_JoinCourse, setShowNotifsuccess_JoinCourse] = useState(false);
     const navigate = useNavigate();
+    // Theme is controlled globally via Navbar
 
     const fetchCourses = async () => {
         setLoading(true);
@@ -46,6 +48,10 @@ function Dashboard() {
     useEffect(() => {
         fetchCourses();
     }, []);
+
+    // Removed local theme effect
+
+    // Removed local theme toggle
 
     const handleView = (course) => {
 
