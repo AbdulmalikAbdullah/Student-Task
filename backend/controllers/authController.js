@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
-        if (!user.verified) return res.status(401).json({ msg: 'Please verify your email first' });
+        if (!user.verified) return res.status(400).json({ msg: 'Please verify your email first' });
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
@@ -132,23 +132,22 @@ exports.updateProfile = async (req, res) => {
 };
 
 exports.verifyEmail = async (req, res) => {
-    const { token, email } = req.query;
+  const { token, email } = req.query;
 
-    try {
-        const user = await User.findOne({ email, verificationToken: token });
-        if (!user) return res.status(400).send("Invalid or expired verification link");
+  try {
+    const user = await User.findOne({ email, verificationToken: token });
+    if (!user) return res.redirect("http://localhost:5173/verify-email?status=error");
 
-        user.verified = true;
-        user.verificationToken = undefined;
-        await user.save();
+    user.verified = true;
+    user.verificationToken = undefined;
+    await user.save();
 
-        // Redirect to frontend login page with success message
-        // res.redirect(`${process.env.CLIENT_URL}/?verified=true`);
-        res.redirect("http://localhost:5173/")
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Verification error");
-    }
+    // Redirect to frontend with success query
+    res.redirect("http://localhost:5173/verify-email?status=success");
+  } catch (err) {
+    console.error(err.message);
+    res.redirect("http://localhost:5173/verify-email?status=error");
+  }
 };
 
 
@@ -193,8 +192,8 @@ exports.resetPassword = async (req, res) => {
     const { token, email, newPassword } = req.body;
 
     try {
-        const user = await User.findOne({ 
-            email, 
+        const user = await User.findOne({
+            email,
             resetPasswordToken: token,
             resetPasswordExpires: { $gt: Date.now() } // check if token not expired
         });

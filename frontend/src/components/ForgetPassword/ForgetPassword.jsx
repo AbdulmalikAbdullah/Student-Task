@@ -1,20 +1,27 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Notification from "../notification/notification";
 import "../Login/Login.css";
 import "./ForgetPassword.css"
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [showNotifErr, setShowNotifErr] = useState(false);
+  const [showNotifsuccess, setShowNotifsuccess] = useState(false);
   const icon = "../../../assets/navIcon.svg";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:5000/api/auth/forgot-password`, { email });
-      setMessage(res.data.msg);
+      await axios.post(`http://localhost:5000/api/auth/forgot-password`, { email });
+      setShowNotifsuccess(true);
+      setTimeout(() => {
+        setShowNotifsuccess(false);
+        window.location.href = "/";
+      }, 3500);
     } catch (err) {
-      setMessage(err.response?.data?.msg || "Error sending reset link");
+      setShowNotifErr(true);
+      setTimeout(() => setShowNotifErr(false), 3500);
     }
   };
 
@@ -50,7 +57,16 @@ const ForgotPassword = () => {
             I have remember my password!{" "}
             <Link to="/">Login</Link>
           </p>
-          {message && <p>{message}</p>}
+
+          {showNotifErr && Notification({
+            message: 'Failed to send reset link! Please try again later.',
+            type: 'error'
+          })}
+
+          {showNotifsuccess && Notification({
+            message: 'Reset link sent! Please check your email inbox.',
+            type: 'success'
+          })}
         </div>
       </div>
     </div>

@@ -26,10 +26,10 @@ function Register() {
             setTimeout(() => {
                 setShowNotifsuccess(false);
                 window.location.href = "/";
-            }, 1500);
+            }, 3500);
         } catch (err) {
             setShowNotifErr(true);
-            setTimeout(() => setShowNotifErr(false), 2500);
+            setTimeout(() => setShowNotifErr(false), 3500);
             console.error('register error', err);
 
         }
@@ -112,9 +112,15 @@ function Register() {
                             </button>
 
 
-                            {showNotifErr && Notification({ message: 'Registration failed! Please try again.', type: 'error' })}
+                            {showNotifErr && Notification({
+                                message: 'Registration failed! Please try again.',
+                                type: 'error'
+                            })}
 
-                            {showNotifsuccess && Notification({ message: 'Registration successful! Redirecting...', type: 'success' })}
+                            {showNotifsuccess && Notification({
+                                message: 'Account created successfully! Please check your email to verify your account.',
+                                type: 'success'
+                            })}
 
                         </div>
                     </form>

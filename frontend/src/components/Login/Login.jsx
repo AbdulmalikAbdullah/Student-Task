@@ -22,11 +22,11 @@ function Login() {
             setTimeout(() => {
                 setShowNotifsuccess(false);
                 window.location.href = "/dashboard";
-            }, 1500);
+            }, 3500);
 
         } catch (err) {
             setShowNotifErr(true);
-            setTimeout(() => setShowNotifErr(false), 2500);
+            setTimeout(() => setShowNotifErr(false), 3500);
             console.error('login error', err);
         }
     };
@@ -86,9 +86,15 @@ function Login() {
                             </p>
                             <button className="login-button" type="submit">Login</button>
 
-                            {showNotifErr && Notification({ message: 'Login failed! Please check your credentials.', type: 'error' })}
+                            {showNotifErr && Notification({
+                                message: 'Login failed! Check your email, password, or verify your email.',
+                                type: 'error'
+                            })}
 
-                            {showNotifsuccess && Notification({ message: 'Login successful! Redirecting...', type: 'success' })}
+                            {showNotifsuccess && Notification({
+                                message: 'Login successful! Redirecting...',
+                                type: 'success'
+                            })}
 
                         </div>
                     </form>

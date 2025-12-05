@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Notification from "../notification/notification";
 import axios from "axios";
 import "./ResetPassword.css"
 import "../Login/Login.css";
@@ -12,7 +13,8 @@ const ResetPassword = () => {
     const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [message, setMessage] = useState("");
+    const [showNotifErr, setShowNotifErr] = useState(false);
+    const [showNotifsuccess, setShowNotifsuccess] = useState(false);
     const icon = "../../../assets/navIcon.svg";
     const EyeIcon = "../../../assets/EyeIcon.svg";
     const EyeSlashIcon = "../../../assets/EyeSlashIcon.svg";
@@ -28,10 +30,14 @@ const ResetPassword = () => {
                 email,
                 newPassword
             });
-            setMessage(res.data.msg);
-            setTimeout(() => navigate("/"), 3000); // Redirect to login
+            setShowNotifsuccess(true);
+            setTimeout(() => {
+                setShowNotifsuccess(false);
+                window.location.href = "/";
+            }, 3500);
         } catch (err) {
-            setMessage(err.response?.data?.msg || "Reset failed");
+            setShowNotifErr(true);
+            setTimeout(() => setShowNotifErr(false), 3500);
         }
     };
 
@@ -73,7 +79,16 @@ const ResetPassword = () => {
                     </form>
 
 
-                    {message && <p>{message}</p>}
+
+                    {showNotifErr && Notification({
+                        message: 'Password reset failed! The link may be invalid or expired.',
+                        type: 'error'
+                    })}
+
+                    {showNotifsuccess && Notification({
+                        message: 'Password reset successful! You can now sign in with your new password.',
+                        type: 'success'
+                    })}
                 </div>
             </div>
         </div >

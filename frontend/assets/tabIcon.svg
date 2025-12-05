@@ -1,32 +1,33 @@
 <svg className="icon"
-    width="32px"
-    height="32px"
-    viewBox="0 0 32 32"
+    width="34px"
+    height="34px"
+    viewBox="-1 -1 34 34"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <circle cx="16" cy="16" r="17" fill="#007bff" />
     <line
       fill="none"
-      stroke="#ffffff"
+      stroke="#fff"
       strokeWidth="2"
       strokeMiterlimit="10"
-      x1="3"
+      x1="4"
       y1="13"
-      x2="3"
+      x2="4"
       y2="24"
     />
-    <circle fill="#ffffff" cx="3" cy="24" r="2" />
+    <circle fill="#fff" cx="4" cy="24" r="2" />
     <polygon
       fill="none"
-      stroke="#ffffff"
+      stroke="#fff"
       strokeWidth="2"
       strokeMiterlimit="10"
       points="16,8.833 3.5,13 16,17.167 28.5,13"
     />
     <path
       fill="none"
-      stroke="#ffffff"
-      strokeWidth="2"
+      stroke="#fff"
+      strokeWidth="3"
       strokeMiterlimit="10"
       d="M7,14.451V20c0,1.657,4.029,3,9,3s9-1.343,9-3v-5.549"
     />
-  </svg>
+</svg>

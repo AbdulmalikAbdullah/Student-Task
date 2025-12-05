@@ -6,6 +6,7 @@ import Navbar from "../Navbar/Navbar.jsx";
 import { useEffect, useState } from "react";
 import api from "../../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import Notification from "../notification/notification";
 
 function Dashboard() {
     const [courses, setCourses] = useState([]);
@@ -20,6 +21,12 @@ function Dashboard() {
     const [joining, setJoining] = useState(false);
     const [createdCourse, setCreatedCourse] = useState(null);
     const [showNotif, setShowNotif] = useState(false);
+    const [showNotifErr_UpdateCourse, setShowNotifErr_UpdateCourse] = useState(false);
+    const [showNotifsuccess_UpdateCourse, setShowNotifsuccess_UpdateCourse] = useState(false);
+    const [showNotifErr_DeleteCourse, setShowNotifErr_DeleteCourse] = useState(false);
+    const [showNotifsuccess_DeleteCourse, setShowNotifsuccess_DeleteCourse] = useState(false);
+    const [showNotifErr_JoinCourse, setShowNotifErr_JoinCourse] = useState(false);
+    const [showNotifsuccess_JoinCourse, setShowNotifsuccess_JoinCourse] = useState(false);
     const navigate = useNavigate();
 
     const fetchCourses = async () => {
@@ -51,29 +58,32 @@ function Dashboard() {
         }
         try {
             await api.delete(`/courses/${courseId}`);
-            alert('Course deleted successfully');
+            setShowNotifsuccess_DeleteCourse(true);
+            setTimeout(() => { setShowNotifsuccess_DeleteCourse(false); }, 3500);
             await fetchCourses();
         } catch (err) {
             console.error("deleteCourse error", err);
-            alert(err.response?.data?.msg || 'Failed to delete course');
+            setShowNotifErr_DeleteCourse(true);
+            setTimeout(() => { setShowNotifErr_DeleteCourse(false); }, 3500);
         }
     };
 
     const handleUpdate = async (courseId, newName, newCode) => {
         if (!newName.trim() || !newCode.trim()) {
-            alert('Course name and code cannot be empty');
             return;
         }
         try {
-            await api.put(`/courses/${courseId}`, { 
+            await api.put(`/courses/${courseId}`, {
                 name: newName.trim(),
                 courseCode: newCode.trim()
             });
             await fetchCourses();
-            alert('Course updated successfully');
+            setShowNotifsuccess_UpdateCourse(true);
+            setTimeout(() => { setShowNotifsuccess_UpdateCourse(false); }, 3500);
         } catch (err) {
             console.error("updateCourse error", err);
-            alert(err.response?.data?.msg || 'Failed to update course');
+            setShowNotifErr_UpdateCourse(true);
+            setTimeout(() => { setShowNotifErr_UpdateCourse(false); }, 3500);
 
         }
     }
@@ -123,10 +133,13 @@ function Dashboard() {
             setJoinCode("");
             setShowJoin(false);
             await fetchCourses();
-            alert("Successfully joined course!");
+            setShowNotifsuccess_JoinCourse(true);
+            setTimeout(() => { setShowNotifsuccess_JoinCourse(false); }, 3500);
         } catch (err) {
             console.error('join course error', err);
             alert(err.response?.data?.msg || 'Failed to join course');
+            setShowNotifErr_JoinCourse(true);
+            setTimeout(() => { setShowNotifErr_JoinCourse(false); }, 3500);
         } finally {
             setJoining(false);
         }
@@ -259,6 +272,49 @@ function Dashboard() {
                         </div>
                     </div>
                 )}
+
+                {showNotifErr_UpdateCourse && (
+                    <Notification
+                        message="Course code or name was not updated successfully."
+                        type="error"
+                    />
+                )}
+
+                {showNotifsuccess_UpdateCourse && (
+                    <Notification
+                        message="Course code or name updated successfully."
+                        type="success"
+                    />
+                )}
+
+                {showNotifErr_DeleteCourse && (
+                    <Notification
+                        message="Course was not deleted successfully."
+                        type="error"
+                    />
+                )}
+
+                {showNotifsuccess_DeleteCourse && (
+                    <Notification
+                        message="Course deleted successfully."
+                        type="success"
+                    />
+                )}
+
+                {showNotifErr_JoinCourse && (
+                    <Notification
+                        message="Failed to join course"
+                        type="error"
+                    />
+                )}
+                {showNotifsuccess_JoinCourse && (
+                    <Notification
+                        message="Successfully joined course!"
+                        type="success"
+                    />
+                )}
+
+
 
             </main>
         </>
