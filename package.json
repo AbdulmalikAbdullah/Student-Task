@@ -1,5 +1,33 @@
 {
   "dependencies": {
-    "react-beautiful-dnd": "^13.1.1"
-  }
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.0.1",
+    "nodemailer": "^7.0.11",
+    "react-beautiful-dnd": "^13.1.1",
+    "socket.io": "^4.8.1"
+  },
+  "name": "student-task",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdulmalikAbdullah/Student-Task.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbdulmalikAbdullah/Student-Task/issues"
+  },
+  "homepage": "https://github.com/AbdulmalikAbdullah/Student-Task#readme",
+  "description": ""
 }

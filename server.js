@@ -1,12 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
-const connectDB = require("./config/db");
+const connectDB = require("./backend/config/db");
 require("dotenv").config();
 
-const authRoutes = require('./routes/authRoutes');
-const courseRoutes = require('./routes/courseRoutes');
-const taskRoutes = require('./routes/taskRoutes');
+const authRoutes = require('./backend/routes/authRoutes');
+const courseRoutes = require('./backend/routes/courseRoutes');
+const taskRoutes = require('./backend/routes/taskRoutes');
 
 const app = express();
 const server = http.createServer(app);
