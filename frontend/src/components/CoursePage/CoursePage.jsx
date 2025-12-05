@@ -40,7 +40,7 @@ function CoursePage() {
     const [statusFilter, setStatusFilter] = useState("All");
     const [priorityFilter, setPriorityFilter] = useState("All");
     const [memberFilter, setMemberFilter] = useState("All");
-    const [dateSort, setDateSort] = useState("asc");
+    const [dateSort, setDateSort] = useState("manual");
     const [showFilter, setShowFilter] = useState(true);
     const [onlineUser, setOnlineUser] = useState(0);
 
@@ -176,12 +176,17 @@ function CoursePage() {
             if (memberFilter !== "All" && t.assignedTo !== memberFilter) return false;
 
             return true;
-        })
-        .sort((a, b) => {
-            if (!a.dueDate || !b.dueDate) return 0;
-            return dateSort === "asc"
-                ? new Date(a.dueDate) - new Date(b.dueDate)
-                : new Date(b.dueDate) - new Date(a.dueDate);
+        });
+
+    const sortedTasks = dateSort === 'manual'
+        ? filteredTasks
+        : filteredTasks.slice().sort((a, b) => {
+            const aDate = a.dueDate ? new Date(a.dueDate) : null;
+            const bDate = b.dueDate ? new Date(b.dueDate) : null;
+            if (!aDate && !bDate) return 0;
+            if (!aDate) return 1;
+            if (!bDate) return -1;
+            return dateSort === 'asc' ? aDate - bDate : bDate - aDate;
         });
 
     const backIcon = <svg width="24" height="24" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -257,6 +262,7 @@ function CoursePage() {
                                 value={dateSort}
                                 onChange={(e) => setDateSort(e.target.value)}
                             >
+                                <option value="manual">Manual (Drag & Drop)</option>
                                 <option value="asc">Due Date (Ascending)</option>
                                 <option value="desc">Due Date (Descending)</option>
                             </select>
@@ -296,13 +302,21 @@ function CoursePage() {
                     )}
                     {activeTab === 'tasks' ? (
                         <TaskList
-                            tasks={filteredTasks}
+                            tasks={sortedTasks}
                             members={members}
                             loading={loading}
                             onSelect={(t) => setSelectedTask(t)}
                             onToggleComplete={toggleComplete}
-                            onDragEnd={(reorderedTasks) => {
+                            onDragEnd={async (reorderedTasks) => {
                                 setTasks(reorderedTasks);
+                                try {
+                                    await api.post('/tasks/reorder', {
+                                        taskIds: reorderedTasks.map(t => t._id),
+                                        courseId,
+                                    });
+                                } catch (e) {
+                                    console.error('reorder error', e);
+                                }
                             }}
                         />
                     ) : (
