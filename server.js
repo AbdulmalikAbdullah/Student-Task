@@ -105,6 +105,7 @@ connectDB();
 
 app.use(cors({
     origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 
@@ -118,7 +119,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// ⭐ Online Users Logic
 const courseOnlineUsers = {}; 
 const socketCourses = {};    
 

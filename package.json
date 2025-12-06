@@ -29,5 +29,6 @@
     "url": "https://github.com/AbdulmalikAbdullah/Student-Task/issues"
   },
   "homepage": "https://github.com/AbdulmalikAbdullah/Student-Task#readme",
-  "description": ""
+  "description": "",
+  "proxy": "https://student-task-9w2i.onrender.com"
 }
