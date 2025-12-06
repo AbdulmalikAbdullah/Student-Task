@@ -1,9 +1,9 @@
 import React from 'react';
 import './MembersList.css';
 import '../Shared/Modal.css';
-
+import emailIcon from "../../../public/assets/emailIcon.svg";
 export default function MembersList({ members }) {
-  const emailIcon = "../../../assets/emailIcon.svg";
+
   return (
     <div className="members-panel">
       {members.length === 0 ? (

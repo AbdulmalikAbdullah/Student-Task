@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import Notification from "../notification/notification";
 import "./Register.css";
 import "../Login/Login.css";
+import icon from "../../../public/assets/navIcon.svg"
+import EyeIcon from "../../../public/assets/EyeIcon.svg";
+import EyeSlashIcon from "../../../public/assets/EyeSlashIcon.svg";
 
 function Register() {
     const { register } = useContext(AuthContext);
@@ -15,7 +18,6 @@ function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [showNotifErr, setShowNotifErr] = useState(false);
     const [showNotifsuccess, setShowNotifsuccess] = useState(false);
-    const icon = "../../../assets/navIcon.svg"
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -34,10 +36,6 @@ function Register() {
 
         }
     };
-
-    const EyeIcon = "../../../assets/EyeIcon.svg";
-
-    const EyeSlashIcon = "../../../assets/EyeSlashIcon.svg";
 
     return (
         <>

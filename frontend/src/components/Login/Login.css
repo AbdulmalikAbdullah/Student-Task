@@ -8,7 +8,7 @@
 .background-container {
   width: 45%;
   height: 98%;
-  background-image: url("../../../assets/background.jpg");
+  background-image: url("../../../public/assets/background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   margin: 10px;

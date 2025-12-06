@@ -3,7 +3,7 @@ import "./ProfileModal.css";
 import { useState, useContext } from "react";
 import api from "../../api/axiosConfig";
 import { AuthContext } from "../../context/AuthContext";
-
+import profileIcon from "../../../public/assets/profileIcon.svg";
 function ProfileModal({ user, onClose }) {
   const { user: contextUser } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
@@ -80,7 +80,7 @@ function ProfileModal({ user, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal profile-modal modal-light" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h3><img className='profile-Icon' src="../../../assets/profileIcon.svg" alt="Date Icon" /> Profile</h3>
+          <h3><img className='profile-Icon' src={profileIcon} alt="Date Icon" /> Profile</h3>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
@@ -99,7 +99,7 @@ function ProfileModal({ user, onClose }) {
               <p>{user?.email}</p>
             </div>
             <button className="btn primary edit-btn" onClick={() => setIsEditing(true)}>
-               Edit Profile
+              Edit Profile
             </button>
           </div>
         ) : (
