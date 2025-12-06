@@ -3,7 +3,7 @@ import "./ProfileModal.css";
 import { useState, useContext } from "react";
 import api from "../../api/axiosConfig";
 import { AuthContext } from "../../context/AuthContext";
-import profileIcon from "../../../public/assets/profileIcon.svg";
+import profileIcon from "../../../assets/profileIcon.svg";
 function ProfileModal({ user, onClose }) {
   const { user: contextUser } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);

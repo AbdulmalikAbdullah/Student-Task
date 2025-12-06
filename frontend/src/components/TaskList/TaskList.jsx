@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './TaskList.css';
-import dueIcon from "../../../public/assets/dueIcon.svg"
+import dueIcon from "../../../assets/dueIcon.svg"
 
 export default function TaskList({ tasks, members = [], loading, onSelect, onToggleComplete, onDragEnd }) {
   const [draggedId, setDraggedId] = useState(null);

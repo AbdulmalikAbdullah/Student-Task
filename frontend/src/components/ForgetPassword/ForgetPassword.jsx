@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Notification from "../notification/notification";
 import "../Login/Login.css";
 import "./ForgetPassword.css"
-import icon from "../../../public/assets/navIcon.svg"
+import icon from "../../../assets/navIcon.svg"
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

@@ -1,7 +1,7 @@
 import React from 'react';
 import './MembersList.css';
 import '../Shared/Modal.css';
-import emailIcon from "../../../public/assets/emailIcon.svg";
+import emailIcon from "../../../assets/emailIcon.svg";
 export default function MembersList({ members }) {
 
   return (

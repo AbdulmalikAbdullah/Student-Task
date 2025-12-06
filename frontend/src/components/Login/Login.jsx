@@ -3,9 +3,9 @@ import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import Notification from "../notification/notification";
 import "./Login.css";
-import EyeIcon from "../../../public/assets/EyeIcon.svg";
-import EyeSlashIcon from "../../../public/assets/EyeSlashIcon.svg";
-import icon from "../../../public/assets/navIcon.svg";
+import EyeIcon from "../../../assets/EyeIcon.svg";
+import EyeSlashIcon from "../../../assets/EyeSlashIcon.svg";
+import icon from "../../../assets/navIcon.svg";
 
 function Login() {
     const { login } = useContext(AuthContext);

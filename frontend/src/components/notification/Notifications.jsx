@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NotificationContext } from "../../context/NotificationContext";
 import "./notification.css";
-import dueIcon from "../../../public/assets/dueIcon.svg"
+import dueIcon from "../../../assets/dueIcon.svg"
 
 function Notifications() {
   const { notifications, unreadCount, markAsRead, dismissNotification } =

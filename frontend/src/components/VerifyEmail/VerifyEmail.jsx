@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Notification from "../notification/notification";
 import axios from "axios";
 import "../Login/Login.css";
-import icon from "../../../public/assets/navIcon.svg";
+import icon from "../../../assets/navIcon.svg";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
