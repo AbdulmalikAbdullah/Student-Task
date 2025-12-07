@@ -18,7 +18,6 @@ exports.register = async (req, res) => {
         const hash = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, hash);
 
-        // Generate verification token
         const verificationToken = crypto.randomBytes(32).toString("hex");
 
         user = new User({
@@ -30,12 +29,17 @@ exports.register = async (req, res) => {
         });
 
         await user.save();
-        // Send verification email
+        
         const transporter = nodemailer.createTransport({
-            service: "Gmail", // or any email service
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
+            },
+            tls: {
+                rejectUnauthorized: false
             }
         });
 
@@ -97,18 +101,15 @@ exports.updateProfile = async (req, res) => {
         const user = await User.findById(req.user.id);
         if (!user) return res.status(404).json({ msg: 'User not found' });
 
-        // Check if email is already taken by another user
         if (email && email !== user.email) {
             const existingUser = await User.findOne({ email });
             if (existingUser) return res.status(400).json({ msg: 'Email already in use' });
         }
 
-        // Update user fields
         if (firstName) user.firstName = firstName;
         if (lastName) user.lastName = lastName;
         if (email) user.email = email;
 
-        // Update password if provided
         if (password) {
             const hash = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, hash);
@@ -132,22 +133,22 @@ exports.updateProfile = async (req, res) => {
 };
 
 exports.verifyEmail = async (req, res) => {
-  const { token, email } = req.query;
+    const { token, email } = req.query;
 
-  try {
-    const user = await User.findOne({ email, verificationToken: token });
-    if (!user) return res.redirect(`${process.env.CLIENT_URL}/verify-email?status=error`);
+    try {
+        const user = await User.findOne({ email, verificationToken: token });
+        if (!user) return res.redirect(`${process.env.CLIENT_URL}/verify-email?status=error`);
 
-    user.verified = true;
-    user.verificationToken = undefined;
-    await user.save();
+        user.verified = true;
+        user.verificationToken = undefined;
+        await user.save();
 
-    // Redirect to frontend with success query
-    res.redirect(`${process.env.CLIENT_URL}/verify-email?status=success`);
-  } catch (err) {
-    console.error(err.message);
-    res.redirect(`${process.env.CLIENT_URL}/verify-email?status=error`);
-  }
+        // Redirect to frontend with success query
+        res.redirect(`${process.env.CLIENT_URL}/verify-email?status=success`);
+    } catch (err) {
+        console.error(err.message);
+        res.redirect(`${process.env.CLIENT_URL}/verify-email?status=error`);
+    }
 };
 
 
@@ -160,12 +161,15 @@ exports.forgotPassword = async (req, res) => {
 
         const resetToken = crypto.randomBytes(32).toString("hex");
         user.resetPasswordToken = resetToken;
-        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        user.resetPasswordExpires = Date.now() + 3600000;
         await user.save();
 
         const transporter = nodemailer.createTransport({
-            service: "Gmail",
-            auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+            tls: { rejectUnauthorized: false }
         });
 
         const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&email=${email}`;
@@ -187,6 +191,7 @@ exports.forgotPassword = async (req, res) => {
 };
 
 
+
 exports.resetPassword = async (req, res) => {
     const { token, email, newPassword } = req.body;
 
@@ -194,7 +199,7 @@ exports.resetPassword = async (req, res) => {
         const user = await User.findOne({
             email,
             resetPasswordToken: token,
-            resetPasswordExpires: { $gt: Date.now() } // check if token not expired
+            resetPasswordExpires: { $gt: Date.now() }
         });
 
         if (!user) return res.status(400).json({ msg: 'Invalid or expired token' });
