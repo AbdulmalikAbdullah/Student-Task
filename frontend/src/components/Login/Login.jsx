@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Notification from "../notification/notification";
 import "./Login.css";
 
@@ -13,6 +13,7 @@ function Login() {
     const [showNotifErr, setShowNotifErr] = useState(false);
     const [showNotifsuccess, setShowNotifsuccess] = useState(false);
     const icon = "../../../assets/navIcon.svg";
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -21,7 +22,7 @@ function Login() {
             setShowNotifsuccess(true);
             setTimeout(() => {
                 setShowNotifsuccess(false);
-                window.location.href = "/dashboard";
+                navigate("/dashboard");
             }, 3900);
 
         } catch (err) {
