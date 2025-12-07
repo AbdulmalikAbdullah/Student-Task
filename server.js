@@ -95,7 +95,7 @@ const { Server } = require("socket.io");
 // ---  Socket.io CORS  ---
 const io = new Server(server, {
     cors: {
-        origin: process.env.CLIENT_URL, 
+        origin: "*", 
         methods: ["GET", "POST"],
         credentials: true
     }
@@ -105,7 +105,7 @@ connectDB();
 
 // --- Express CORS ---
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
 }));
