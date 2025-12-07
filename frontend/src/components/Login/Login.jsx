@@ -3,6 +3,9 @@ import { AuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import Notification from "../notification/notification";
 import "./Login.css";
+import icon from "../../../assets/navIcon.svg";
+import EyeIcon from "../../../assets/EyeIcon.svg";
+import EyeSlashIcon from "../../../assets/EyeSlashIcon.svg";
 
 function Login() {
     const { login } = useContext(AuthContext);
@@ -12,7 +15,6 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [showNotifErr, setShowNotifErr] = useState(false);
     const [showNotifsuccess, setShowNotifsuccess] = useState(false);
-    const icon = "../../../assets/navIcon.svg";
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -31,10 +33,6 @@ function Login() {
             console.error('login error', err);
         }
     };
-
-    const EyeIcon = "../../../assets/EyeIcon.svg";
-
-    const EyeSlashIcon = "../../../assets/EyeSlashIcon.svg";
 
     return (
         <>

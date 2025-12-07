@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NotificationContext } from "../../context/NotificationContext";
 import "./notification.css";
+import dueIcon from "../../../assets/dueIcon.svg";
 
 function Notifications() {
   const { notifications, unreadCount, markAsRead, dismissNotification } =
@@ -138,7 +139,7 @@ function Notifications() {
                       </p>
                       <div className="notification-meta">
                         <span className="deadline">
-                          <img className='date-Icon' src="../../../assets/dueIcon.svg" alt="Date Icon" /> {formatDate(notification.dueDate)}
+                          <img className='date-Icon' src={dueIcon} alt="Date Icon" /> {formatDate(notification.dueDate)}
                         </span>
                         <span
                           className={`priority priority-${notification.priority?.toLowerCase()}`}

@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import Notification from "../notification/notification";
 import "../Login/Login.css";
 import "./ForgetPassword.css"
+import icon from "../../../assets/navIcon.svg";
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [showNotifErr, setShowNotifErr] = useState(false);
   const [showNotifsuccess, setShowNotifsuccess] = useState(false);
-  const icon = "../../../assets/navIcon.svg";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

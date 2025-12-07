@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Notification from "../notification/notification";
 import axios from "axios";
 import "../Login/Login.css";
-
+import icon from "../../../assets/navIcon.svg";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -13,7 +13,6 @@ const VerifyEmail = () => {
   const navigate = useNavigate();
   const [showNotifErr, setShowNotifErr] = useState(false);
   const [showNotifsuccess, setShowNotifsuccess] = useState(false);
-  const icon = "../../../assets/navIcon.svg";
   
   useEffect(() => {
     const status = query.get("status");

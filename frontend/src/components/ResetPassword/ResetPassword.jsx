@@ -4,6 +4,10 @@ import Notification from "../notification/notification";
 import axios from "axios";
 import "./ResetPassword.css"
 import "../Login/Login.css";
+import icon from "../../../assets/navIcon.svg";
+import EyeIcon from "../../../assets/EyeIcon.svg";
+import EyeSlashIcon from "../../../assets/EyeSlashIcon.svg";
+
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -15,9 +19,7 @@ const ResetPassword = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showNotifErr, setShowNotifErr] = useState(false);
     const [showNotifsuccess, setShowNotifsuccess] = useState(false);
-    const icon = "../../../assets/navIcon.svg";
-    const EyeIcon = "../../../assets/EyeIcon.svg";
-    const EyeSlashIcon = "../../../assets/EyeSlashIcon.svg";
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();

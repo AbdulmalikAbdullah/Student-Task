@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './TaskList.css';
+import dueIcon from "../../../assets/dueIcon.svg";
 
 export default function TaskList({ tasks, members = [], loading, onSelect, onToggleComplete, onDragEnd }) {
   const [draggedId, setDraggedId] = useState(null);
@@ -71,7 +72,7 @@ export default function TaskList({ tasks, members = [], loading, onSelect, onTog
               {task.description && <div className="task-desc">{task.description.substring(0, 50)}</div>}
               <div style={{ display: 'flex', gap: 8, marginTop: 6, alignItems: 'center' }}>
                 <div className={`priority-badge priority-${(task.priority || 'Low').toLowerCase()}`}>{task.priority || 'Low'}</div>
-                <div className="task-due"><img className='due-Icon' src="../../../assets/dueIcon.svg" alt="Date Icon" />{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—'}</div>
+                <div className="task-due"><img className='due-Icon' src={dueIcon} alt="Date Icon" />{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—'}</div>
                 <div className='assign-to'><strong>Assigned to:</strong> {task.assignedTo ? `${members.find(m => m._id === task.assignedTo)?.firstName || 'Unknown'} ${members.find(m => m._id === task.assignedTo)?.lastName || ''}`.trim() : 'not assignedTo anyone'}</div>
               </div>
             </div>
