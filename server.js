@@ -92,35 +92,38 @@ const app = express();
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 
+// ---  Socket.io CORS  ---
 const io = new Server(server, {
-    cors: { 
+    cors: {
         origin: process.env.CLIENT_URL, 
-        credentials: true 
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
-
 connectDB();
 
-
+// --- Express CORS ---
 app.use(cors({
     origin: process.env.CLIENT_URL,
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
 }));
 
 app.use(express.json());
 
-
 app.locals.io = io;
 
 
+// --- Routes ---
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/tasks', taskRoutes);
 
+
+// --- Socket.io Logic ---
 const courseOnlineUsers = {}; 
-const socketCourses = {};    
+const socketCourses = {};
 
 io.on('connection', (socket) => {
     console.log('New socket', socket.id);
@@ -164,6 +167,6 @@ io.on('connection', (socket) => {
     });
 });
 
-
+// --- Server ---
 const PORT = process.env.PORT;
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
