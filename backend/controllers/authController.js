@@ -1,18 +1,16 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.js");
-import { Resend } from 'resend';
+const { Resend } = require('resend');
 
 require("dotenv").config();
 
 
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-
-import { Resend } from "resend";
+const resend = new Resend(process.env.RESEND_KEY);
 
 exports.register = async (req, res) => {
-    const resend = new Resend(process.env.RESEND_KEY);
     const { firstName, lastName, email, password } = req.body;
 
     try {
@@ -36,14 +34,22 @@ exports.register = async (req, res) => {
 
         const verificationUrl = `${process.env.CLIENT_URL}/verify-email?token=${verificationToken}&email=${email}`;
 
-        await resend.emails.send({
+        const { data, error } = await resend.emails.send({
             from: process.env.EMAIL_FROM,
             to: email,
             subject: "Verify Your Email",
             html: `<p>Hi ${firstName},</p>
                    <p>Please verify your email by clicking the link below:</p>
-                   <a href="${verificationUrl}">Verify Email</a>`
+                   <a href="${verificationUrl}">Verify Email</a>
+                   <p>Or copy this link: ${verificationUrl}</p>`
         });
+
+        if (error) {
+            console.error('Resend error:', error);
+            // Consider deleting the user if email fails or queue for retry
+            return res.status(500).json({ msg: 'Failed to send verification email' });
+        }
+
 
         res.status(201).json({ msg: "Registration successful. Please check your email to verify your account." });
 
