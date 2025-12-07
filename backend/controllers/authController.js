@@ -1,11 +1,11 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.js");
-const { MailtrapTransport } = require("mailtrap");
-const crypto = require("crypto");
-const nodemailer = require("nodemailer");
+
 require("dotenv").config();
 
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 
 exports.register = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -16,12 +16,14 @@ exports.register = async (req, res) => {
 
         const hash = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, hash);
-        const transport = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
+
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
             port: 465,
+            secure: true,
             auth: {
-                user: "91186029758c24",
-                pass: MAIL_PASS
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
             }
         });
 
@@ -39,17 +41,11 @@ exports.register = async (req, res) => {
 
         const verificationUrl = `${process.env.CLIENT_URL}/verify-email?token=${verificationToken}&email=${email}`;
 
-        const sender = {
-            address: "hello@demomailtrap.co",
-            name: "Mailtrap Test",
-        };
-
-        transport
-            .sendMail({
-                from: sender,
-                to: email,
-                subject: "Verify Your Email",
-                html: `
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Verify Your Email",
+            html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <h2>Email Verification</h2>
                     <p>Hi ${firstName},</p>
@@ -58,8 +54,7 @@ exports.register = async (req, res) => {
                     <p>Or copy: ${verificationUrl}</p>
                 </div>
             `
-            })
-            .then(console.log, console.error);
+        });
 
         res.status(201).json({ msg: "Registration successful. Please check your email to verify your account." });
 
@@ -171,31 +166,52 @@ exports.forgotPassword = async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000;
         await user.save();
 
-        const transport = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
             port: 465,
+            secure: true,
             auth: {
-                user: "91186029758c24",
-                pass: MAIL_PASS
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
             }
         });
 
         const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&email=${email}`;
 
-        const sender = {
-            address: "hello@demomailtrap.co",
-            name: "Mailtrap Test",
-        };
-
-        transport
-            .sendMail({
-                from: sender,
-                to: email,
-                subject: "Reset Your Password",
-                html: `<p>Click the link below to reset your password:</p>
-                   <a href="${resetUrl}">Reset Password</a>`
-            })
-            .then(console.log, console.error);
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Reset Your Password",
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2>Password Reset Request</h2>
+                    <p>Hi ${user.firstName || 'there'},</p>
+                    <p>You requested to reset your password. Click the button below to proceed:</p>
+                    
+                    <a href="${resetUrl}" 
+                       style="display: inline-block; padding: 12px 24px; background-color: #007bff; 
+                              color: white; text-decoration: none; border-radius: 5px; margin: 15px 0;">
+                        Reset Password
+                    </a>
+                    
+                    <p>Or copy and paste this link in your browser:</p>
+                    <p style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; 
+                              word-break: break-all; font-family: monospace;">
+                        ${resetUrl}
+                    </p>
+                    
+                    <p><strong>This link will expire in 1 hour.</strong></p>
+                    
+                    <p>If you didn't request this, please ignore this email. Your password will remain unchanged.</p>
+                    
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                    <p style="color: #666; font-size: 12px;">
+                        For security reasons, this link can only be used once.
+                    </p>
+                </div>
+            `,
+            text: `Reset your password by clicking: ${resetUrl}\n\nThis link expires in 1 hour.`
+        });
 
         res.json({ msg: "Password reset link sent to your email" });
 
