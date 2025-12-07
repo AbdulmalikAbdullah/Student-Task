@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.js");
+import { Resend } from 'resend';
 
 require("dotenv").config();
 
@@ -8,7 +9,10 @@ require("dotenv").config();
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
+import { Resend } from "resend";
+
 exports.register = async (req, res) => {
+    const resend = new Resend(process.env.RESEND_KEY);
     const { firstName, lastName, email, password } = req.body;
 
     try {
@@ -29,24 +33,11 @@ exports.register = async (req, res) => {
         });
 
         await user.save();
-        
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
-        });
 
-        const verificationUrl = `${process.env.BACKEND_URL}/api/auth/verify-email?token=${verificationToken}&email=${email}`;
+        const verificationUrl = `${process.env.CLIENT_URL}/verify-email?token=${verificationToken}&email=${email}`;
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+        await resend.emails.send({
+            from: process.env.EMAIL_FROM,
             to: email,
             subject: "Verify Your Email",
             html: `<p>Hi ${firstName},</p>
