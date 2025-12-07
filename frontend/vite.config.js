@@ -3,8 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  // Optional but good to have:
   build: {
-    // This ensures all files from public are copied
-    copyPublicDir: true
+    outDir: 'dist',
+    copyPublicDir: true  // This ensures files from public/ are copied
   }
 })
