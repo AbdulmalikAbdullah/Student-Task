@@ -19,6 +19,20 @@ exports.register = async (req, res) => {
 
         const hash = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, hash);
+        const createTransporter = () => {
+            return nodemailer.createTransport({
+                host:'smtp.gmail.com',
+                port: 587,
+                secure: 465,
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+            });
+        };
 
         const verificationToken = crypto.randomBytes(32).toString("hex");
 
@@ -34,22 +48,24 @@ exports.register = async (req, res) => {
 
         const verificationUrl = `${process.env.CLIENT_URL}/verify-email?token=${verificationToken}&email=${email}`;
 
-        const { data, error } = await resend.emails.send({
-            from: process.env.EMAIL_FROM,
+        const transporter = createTransporter();
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
             to: email,
             subject: "Verify Your Email",
-            html: `<p>Hi ${firstName},</p>
-                   <p>Please verify your email by clicking the link below:</p>
-                   <a href="${verificationUrl}">Verify Email</a>
-                   <p>Or copy this link: ${verificationUrl}</p>`
-        });
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2>Email Verification</h2>
+                    <p>Hi ${firstName},</p>
+                    <p>Click the link below to verify your email:</p>
+                    <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                    <p>Or copy: ${verificationUrl}</p>
+                </div>
+            `
+        };
 
-        if (error) {
-            console.error('Resend error:', error);
-            // Consider deleting the user if email fails or queue for retry
-            return res.status(500).json({ msg: 'Failed to send verification email' });
-        }
-
+        await transporter.sendMail(mailOptions);
 
         res.status(201).json({ msg: "Registration successful. Please check your email to verify your account." });
 
