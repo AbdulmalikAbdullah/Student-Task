@@ -1,8 +1,0 @@
-[build]
-  publish = "dist"
-  command = "npm run build"
-
-[[redirects]]
-  from = "/dashboard/*"
-  to = "/dashboard/index.html"
-  status = 200
