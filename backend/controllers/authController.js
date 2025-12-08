@@ -158,7 +158,7 @@ exports.forgotPassword = async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000;
         await user.save();
 
-        const resetUrl = `${process.env.BACKEND_URL}/api/auth/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
+        const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
 
         await resend.emails.send({
             from: "Student Task <noreply@studenttask.online>",
