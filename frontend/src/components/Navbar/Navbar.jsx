@@ -1,36 +1,18 @@
 import "./Navbar.css";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ProfileModal from "../Profile/ProfileModal";
 import Notifications from "../notification/Notifications.jsx";
-import NightIcon from "../../../assets/Night_icon.svg";
-import SunIcon from "../../../assets/Sun_icon.svg";
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
   const handleLogout = () => {
     logout();
     navigate("/");
-  };
-
-  // Apply theme to root element and persist
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   const isModalOpen = showProfileModal;
@@ -78,17 +60,6 @@ function Navbar() {
 
           <div className="navbar-buttons">
             <Notifications />
-            <button
-              className="nav-btn profile-btn"
-              onClick={toggleTheme}
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? (
-                <img src={SunIcon} alt="Light" width={20} height={20} />
-              ) : (
-                <img src={NightIcon} alt="Dark" width={20} height={20} />
-              )}
-            </button>
             
             <button
               className="nav-btn profile-btn"
