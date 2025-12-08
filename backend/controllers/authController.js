@@ -35,7 +35,7 @@ exports.register = async (req, res) => {
         const verificationUrl = `${process.env.CLIENT_URL}/verify-email?token=${verificationToken}&email=${email}`;
 
         await resend.emails.send({
-            from: "Student Task <onboarding@resend.dev>",
+            from: "Student Task <noreply@studenttask.online>",
             to: email,
             subject: "Verify your email",
             html: `
@@ -161,7 +161,7 @@ exports.forgotPassword = async (req, res) => {
         const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&email=${email}`;
 
         await resend.emails.send({
-            from: "Student Task <onboarding@resend.dev>",
+            from: "Student Task <noreply@studenttask.online>",
             to: email,
             subject: "Reset Your Password",
             html: `
