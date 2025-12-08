@@ -7,6 +7,10 @@ require("dotenv").config();
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+
 exports.register = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
@@ -16,17 +20,6 @@ exports.register = async (req, res) => {
 
         const hash = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, hash);
-
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
-
         const verificationToken = crypto.randomBytes(32).toString("hex");
 
         user = new User({
@@ -41,10 +34,10 @@ exports.register = async (req, res) => {
 
         const verificationUrl = `${process.env.CLIENT_URL}/verify-email?token=${verificationToken}&email=${email}`;
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+        await resend.emails.send({
+            from: "Student Task <onboarding@resend.dev>",
             to: email,
-            subject: "Verify Your Email",
+            subject: "Verify your email",
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                     <h2>Email Verification</h2>
@@ -59,7 +52,7 @@ exports.register = async (req, res) => {
         res.status(201).json({ msg: "Registration successful. Please check your email to verify your account." });
 
     } catch (err) {
-        console.error(err.message);
+        console.error("Email error:", err);
         res.status(500).send('register error');
     }
 };
@@ -145,7 +138,6 @@ exports.verifyEmail = async (req, res) => {
         user.verificationToken = undefined;
         await user.save();
 
-        // Redirect to frontend with success query
         res.redirect(`${process.env.CLIENT_URL}/verify-email?status=success`);
     } catch (err) {
         console.error(err.message);
@@ -166,20 +158,10 @@ exports.forgotPassword = async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000;
         await user.save();
 
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
-
         const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&email=${email}`;
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+        await resend.emails.send({
+            from: "Student Task <onboarding@resend.dev>",
             to: email,
             subject: "Reset Your Password",
             html: `
