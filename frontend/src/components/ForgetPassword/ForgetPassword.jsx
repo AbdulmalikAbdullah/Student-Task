@@ -14,7 +14,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${BACKEND_URL}api/auth/forgot-password`, { email });
+      await axios.post(`${BACKEND_URL}/api/auth/forgot-password`, { email });
       setShowNotifsuccess(true);
       setTimeout(() => {
         setShowNotifsuccess(false);
