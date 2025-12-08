@@ -32,7 +32,7 @@ exports.register = async (req, res) => {
 
         await user.save();
 
-        const verificationUrl = `${process.env.CLIENT_URL}/verify-email?token=${verificationToken}&email=${email}`;
+        const verificationUrl = `${process.env.BACKEND_URL}/api/auth/verify-email?token=${verificationToken}&email=${encodeURIComponent(email)}`;
 
         await resend.emails.send({
             from: "Student Task <noreply@studenttask.online>",
@@ -158,7 +158,7 @@ exports.forgotPassword = async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000;
         await user.save();
 
-        const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}&email=${email}`;
+        const resetUrl = `${process.env.BACKEND_URL}/api/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
 
         await resend.emails.send({
             from: "Student Task <noreply@studenttask.online>",
