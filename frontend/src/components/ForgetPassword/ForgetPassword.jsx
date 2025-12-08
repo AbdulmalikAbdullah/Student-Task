@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api/axiosConfig";
 import { Link } from "react-router-dom";
 import Notification from "../notification/notification";
 import "../Login/Login.css";
@@ -14,7 +14,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${BACKEND_URL}/api/auth/forgot-password`, { email });
+      await api.post("/auth/forgot-password", { email });
       setShowNotifsuccess(true);
       setTimeout(() => {
         setShowNotifsuccess(false);

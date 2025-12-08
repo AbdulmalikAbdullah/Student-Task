@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Notification from "../notification/notification";
-import axios from "axios";
+import api from "../../api/axiosConfig";
 import "./ResetPassword.css"
 import "../Login/Login.css";
 import icon from "../../../assets/navIcon.svg";
 import EyeIcon from "../../../assets/EyeIcon.svg";
 import EyeSlashIcon from "../../../assets/EyeSlashIcon.svg";
-
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -27,7 +26,7 @@ const ResetPassword = () => {
         const email = query.get("email");
 
         try {
-            const res = await axios.post(`${BACKEND_URL}/api/auth/reset-password`, {
+            const res = await api.post("/auth/reset-password", {
                 token,
                 email,
                 newPassword
